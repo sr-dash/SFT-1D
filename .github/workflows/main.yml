@@ -13,8 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up gfortran
-        run: sudo apt-get update && sudo apt-get install gfortran
+      - name: Set up gfortran and gcc
+        run: sudo apt-get update && sudo apt-get install gfortran && sudo apt-get install -y gcc
 
       - name: Download and Set up netCDF
         run: |
