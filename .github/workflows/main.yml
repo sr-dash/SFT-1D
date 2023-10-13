@@ -16,38 +16,9 @@ jobs:
       - name: Set up gfortran
         run: sudo apt-get update && sudo apt-get install gfortran
 
-      - name: Install NetCDF
+      - name: Download and Set up netCDF
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y libnetcdf-dev
-          sudo apt-get install netcdf-bin
-        env:
-          NETCDF_DIR: /usr
-
-      - name: Set up Miniconda
-        run: |
-          # Download and install Miniconda
-          wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-          bash miniconda.sh -b -p $HOME/miniconda
-          export PATH="$HOME/miniconda/bin:$PATH"
-          conda init bash
-          echo "Conda installed at $HOME/miniconda"
-        env:
-          NETCDF_DIR: /usr
-
-      - name: Install NetCDF-Fortran
-        run: |
-          conda install -c conda-forge netcdf-fortran
-          echo "NetCDF-Fortran installed via Conda"
-        env:
-          NETCDF_DIR: /usr
-
-      - name: Set Library Paths
-        run: |
-          echo "/usr/lib/x86_64-linux-gnu" | sudo tee -a /etc/ld.so.conf.d/netcdf.conf
-          sudo ldconfig
-        env:
-          NETCDF_DIR: /usr
+          sudo CC=gcc FC=gfortran MAINDIR=/usr/local/netcdf ./install_netcdf.sh
 
       - name: Find the location of netcdf libraries.
         run: nc-config --all

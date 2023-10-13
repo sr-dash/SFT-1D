@@ -2,8 +2,8 @@
 FC = gfortran
 
 # Location of files for netcdf library
-NETCDF = -I$HOME/miniconda/include
-NETCDFLIB = -L$HOME/miniconda/lib -lnetcdff
+NETCDF = -I/home/runner/miniconda/include
+NETCDFLIB = -L/home/runner/miniconda/lib -lnetcdff
 
 # Set compiler flags
 FFLAGS = -O3 -Wall -Wno-unused-variable -fcheck=all -Wtabs -Wextra -ffast-math -funroll-loops --param max-unroll-times=5
