@@ -19,13 +19,28 @@ jobs:
 
       - name: Compile LaTeX
         run: |
-          cd doc/
           make
           chmod +x usermanual.pdf
+        working-directory: doc/
 
       - name: Upload Documentation
         uses: actions/upload-artifact@v2
         with:
           name: documentation
           path: doc/usermanual.pdf
+
+      - name: Move PDF to Repository Directory
+        run: |
+          mv usermanual.pdf doc/
+        working-directory: doc/
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.email "dashs@hawaii.edu"
+          git config user.name "Soumyaranjan Dash"
+          git add doc/usermanual.pdf
+          git commit -m "Add generated documentation PDF"
+          git push
+        working-directory: doc/
+
 
