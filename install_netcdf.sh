@@ -95,7 +95,7 @@ tar -xf netcdf-c-$NCTAG.tar.gz
 cd netcdf-c-$NCTAG/
 NCDIR=$MAINDIR
 echo " --->> Compiling netcdf-c-$NCTAG"
-CPPFLAGS=-I${H5DIR}/include LDFLAGS=-L${H5DIR}/lib ./configure --enable-parallel --prefix=${NCDIR} > config.log 2>&1
+CPPFLAGS=-I${H5DIR}/include LDFLAGS=-L${H5DIR}/lib ./configure --prefix=${NCDIR} > config.log 2>&1
 make -j4 > config.log 2>&1
 make install > config.log 2>&1
 cd ..
@@ -105,7 +105,7 @@ rm -rf netcdf-c-$NCTAG
 tar -xf netcdf-fortran-$NFTAG.tar.gz
 cd netcdf-fortran-$NFTAG/
 echo " --->> Compiling netcdf-fortran-$NFTAG"
-CPPFLAGS=-I${NCDIR}/include LDFLAGS=-L${NCDIR}/lib ./configure --enable-parallel --prefix=${NCDIR} > config.log 2>&1
+CPPFLAGS=-I${NCDIR}/include LDFLAGS=-L${NCDIR}/lib ./configure --prefix=${NCDIR} > config.log 2>&1
 make -j4 > config.log 2>&1
 make install > config.log 2>&1
 cd ..
