@@ -27,14 +27,8 @@ jobs:
              NETCDF_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu
              NETCDF_INCLUDE_PATH: /usr/include
 
-      - name: Install locate command
-        run: sudo apt-get install mlocate
-
       - name: Find the location of netcdf libraries.
         run: nc-config --all
-
-      - name: Check if the mod file is present
-        run: locate netcdf.mod
 
       - name: Build
         run: make -f makefile.git # Use the appropriate build command, e.g., make or ./build.sh
