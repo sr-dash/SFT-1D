@@ -29,11 +29,6 @@ jobs:
           name: documentation
           path: doc/usermanual.pdf
 
-      - name: Move PDF to Repository Directory
-        run: |
-          mv usermanual.pdf doc/
-        working-directory: doc/
-
       - name: Commit and Push Changes
         run: |
           git config user.email "dashs@hawaii.edu"
