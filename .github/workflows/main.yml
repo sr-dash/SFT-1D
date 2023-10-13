@@ -19,6 +19,9 @@ jobs:
       - name: Set up netcdf
         run: sudo apt-get install libnetcdf-dev
 
+      - name: Install locate command
+        run: sudo apt-get install mlocate
+
       - name: Find the location of netcdf libraries.
         run: nc-config --all
 
