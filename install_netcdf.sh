@@ -32,7 +32,7 @@ F90=${FC}
 F77=${FC}
 
 # main directory
-MAINDIR=${INSTALL_DIR}
+MAINDIR=${MAINDIR:-/usr/local/netcdf}
 
 # version of libs
 CLTAG="7.61.0"
