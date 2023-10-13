@@ -19,13 +19,7 @@ jobs:
       - name: Set up netcdf
         run: |
              sudo apt-get update -qq
-             sudo apt-get install -y libnetcdf-dev
-             export NETCDF_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
-             export NETCDF_INCLUDE_PATH=/usr/include
-             echo "export NETCDF_INCLUDE_PATH=$NETCDF_INCLUDE_PATH" >> $GITHUB_ENV
-        env:
-             NETCDF_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu
-             NETCDF_INCLUDE_PATH: /usr/include
+             ./install_netcdf.sh
 
       - name: Find the location of netcdf libraries.
         run: nc-config --all
