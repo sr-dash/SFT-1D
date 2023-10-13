@@ -1,2 +1,2 @@
-# sft1d
-Surface Flux Transport modelling in one dimension (latitude). 
+# Surface Flux Transport (SFT) 1D
+Surface Flux Transport modeling in one dimension (latitude). 
