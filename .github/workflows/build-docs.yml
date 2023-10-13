@@ -21,6 +21,7 @@ jobs:
         run: |
           cd doc/
           make
+          chmod +x doc/usermanual.pdf
 
       - name: Upload Documentation
         uses: actions/upload-artifact@v2
