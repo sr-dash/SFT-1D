@@ -84,7 +84,7 @@ tar -xf hdf5-$H5TAG.tar
 cd hdf5-$H5TAG/
 H5DIR=$MAINDIR
 echo " --->> Compiling hdf5-$H5TAG"
-./configure --with-zlib=${ZDIR} --enable-parallel --prefix=${H5DIR}
+./configure --with-zlib=${ZDIR} --disable-parallel --prefix=${H5DIR}
 make -j4 
 make install 
 cd ..
@@ -95,7 +95,7 @@ tar -xf netcdf-c-$NCTAG.tar.gz
 cd netcdf-c-$NCTAG/
 NCDIR=$MAINDIR
 echo " --->> Compiling netcdf-c-$NCTAG"
-CPPFLAGS=-I${H5DIR}/include LDFLAGS=-L${H5DIR}/lib ./configure --prefix=${NCDIR}
+CPPFLAGS=-I${H5DIR}/include LDFLAGS=-L${H5DIR}/lib ./configure --prefix=${NCDIR} --disable-parallel
 make -j4
 make install
 cd ..
@@ -105,9 +105,9 @@ rm -rf netcdf-c-$NCTAG
 tar -xf netcdf-fortran-$NFTAG.tar.gz
 cd netcdf-fortran-$NFTAG/
 echo " --->> Compiling netcdf-fortran-$NFTAG"
-CPPFLAGS=-I${NCDIR}/include LDFLAGS=-L${NCDIR}/lib ./configure --prefix=${NCDIR} > config.log 2>&1
-make -j4 > config.log 2>&1
-make install > config.log 2>&1
+CPPFLAGS=-I${NCDIR}/include LDFLAGS=-L${NCDIR}/lib ./configure --prefix=${NCDIR} --disable-parallel
+make -j4
+make install
 cd ..
 rm -rf netcdf-fortran-$NFTAG
 
