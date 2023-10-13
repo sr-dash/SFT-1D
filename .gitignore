@@ -1,0 +1,10 @@
+# LaTeX
+*.log
+*.aux
+*.toc
+*.out
+*.pdf
+*.gz
+*.bbl
+*.blg
+
