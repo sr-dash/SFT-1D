@@ -24,10 +24,6 @@ jobs:
           sudo CC=gcc FC=gfortran MAINDIR=/usr/local/netcdf ./install_netcdf.sh
         # Make the installation script executable and run it
 
-      - name: Show Compilation Options
-        run: |
-          /usr/loacal/netcdf/bin/nf-config --all
-
       - name: Build
         run: make -f makefile.git # Use the appropriate build command, e.g., make or ./build.sh
 
