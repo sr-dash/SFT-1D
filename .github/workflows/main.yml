@@ -23,7 +23,7 @@ jobs:
         run: nc-config --all
 
       - name: Build
-        run: make # Use the appropriate build command, e.g., make or ./build.sh
+        run: make -f makefile.git # Use the appropriate build command, e.g., make or ./build.sh
 
       - name: Test
         run: ./bin/SFT1D initial_parameter.nml # Modify for your specific testing procedure
