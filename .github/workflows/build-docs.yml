@@ -33,7 +33,7 @@ jobs:
         run: |
           git config user.email "dashs@hawaii.edu"
           git config user.name "Soumyaranjan Dash"
-          git add doc/usermanual.pdf
+          git add usermanual.pdf
           git commit -m "Add generated documentation PDF"
           git push
         working-directory: doc/
