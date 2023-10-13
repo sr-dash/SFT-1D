@@ -17,12 +17,18 @@ jobs:
         run: sudo apt-get update && sudo apt-get install gfortran
 
       - name: Set up netcdf
+        id: netcdf-check
         run: |
-             sudo apt-get update -qq
-             ./install_netcdf.sh
+          if [ ! -f /usr/include/netcdf.mod ]; then
+            echo "NetCDF not found, installing..."
+            sudo apt-get update -qq
+            sudo apt-get install -y libnetcdf-dev
+          else
+            echo "NetCDF is already installed."
+          fi
 
       - name: Find the location of netcdf libraries.
-        run: nc-config --all
+        run: nf-config --all
 
       - name: Build
         run: make -f makefile.git # Use the appropriate build command, e.g., make or ./build.sh
