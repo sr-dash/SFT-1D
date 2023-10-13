@@ -4,3 +4,11 @@
 [![Build LaTeX Documentation](https://github.com/sr-dash/sft1d/actions/workflows/build-docs.yml/badge.svg)](https://github.com/sr-dash/sft1d/actions/workflows/build-docs.yml)
 
 Surface Flux Transport modeling in one dimension (latitude). 
+
+## Documentation
+
+This project includes LaTeX documentation that you can access in PDF format.
+
+- [Download PDF](doc/usermanual.pdf)
+
+Feel free to explore the documentation, and if you have any questions or feedback, please [reach out](dashs@hawaii.edu).
