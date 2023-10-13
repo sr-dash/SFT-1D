@@ -19,6 +19,9 @@ jobs:
       - name: Set up netcdf
         run: sudo apt-get install libnetcdf-dev
 
+      - name: Find the location of netcdf libraries.
+        run: nc-config --all
+
       - name: Build
         run: make # Use the appropriate build command, e.g., make or ./build.sh
 
