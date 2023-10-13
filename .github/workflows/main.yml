@@ -23,7 +23,7 @@ jobs:
         run: nc-config --all
 
       - name: Check if the mod file is present
-        run: cd /usr/lib/x86_64-linux-gnu | ls
+        run: cd /usr/lib/x86_64-linux-gnu && ls -al
 
       - name: Build
         run: make -f makefile.git # Use the appropriate build command, e.g., make or ./build.sh
