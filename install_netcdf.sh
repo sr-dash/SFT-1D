@@ -62,7 +62,7 @@ cd curl-$CLTAG/
 CLDIR=$MAINDIR
 echo " --->> Compiling curl-$CLTAG"
 ./configure --prefix=${CLDIR} > config.log 2>&1
-make -j4 > config.log 2>&1
+make > config.log 2>&1
 make install > config.log 2>&1
 cd ..
 rm -rf curl-$CLTAG
@@ -74,7 +74,7 @@ cd zlib-$ZLTAG/
 ZDIR=$MAINDIR
 echo " --->> Compiling zlib-$ZLTAG"
 ./configure --prefix=${ZDIR} > config.log 2>&1
-make -j4 > config.log 2>&1
+make > config.log 2>&1
 make install > config.log 2>&1
 cd ..
 rm -rf zlib-$ZLTAG
@@ -85,7 +85,7 @@ cd hdf5-$H5TAG/
 H5DIR=$MAINDIR
 echo " --->> Compiling hdf5-$H5TAG"
 ./configure --with-zlib=${ZDIR} --enable-parallel --prefix=${H5DIR} > config.log 2>&1
-make -j4 > config.log 2>&1
+make > config.log 2>&1
 make install > config.log 2>&1
 cd ..
 rm -rf hdf5-$H5TAG
@@ -96,7 +96,7 @@ cd netcdf-c-$NCTAG/
 NCDIR=$MAINDIR
 echo " --->> Compiling netcdf-c-$NCTAG"
 CPPFLAGS=-I${H5DIR}/include LDFLAGS=-L${H5DIR}/lib ./configure --enable-parallel --prefix=${NCDIR} > config.log 2>&1
-make -j4 > config.log 2>&1
+make > config.log 2>&1
 make install > config.log 2>&1
 cd ..
 rm -rf netcdf-c-$NCTAG
@@ -106,7 +106,7 @@ tar -xf netcdf-fortran-$NFTAG.tar.gz
 cd netcdf-fortran-$NFTAG/
 echo " --->> Compiling netcdf-fortran-$NFTAG"
 CPPFLAGS=-I${NCDIR}/include LDFLAGS=-L${NCDIR}/lib ./configure --enable-parallel --prefix=${NCDIR} > config.log 2>&1
-make -j4 > config.log 2>&1
+make > config.log 2>&1
 make install > config.log 2>&1
 cd ..
 rm -rf netcdf-fortran-$NFTAG
