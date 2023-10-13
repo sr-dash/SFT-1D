@@ -17,7 +17,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install gfortran
 
       - name: Set up netcdf
-        run: sudo install libnetcdf-dev
+        run: sudo apt-get install libnetcdf-dev
 
       - name: Build
         run: make # Use the appropriate build command, e.g., make or ./build.sh
