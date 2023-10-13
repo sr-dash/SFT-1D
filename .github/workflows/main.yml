@@ -1,0 +1,27 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up gfortran
+        run: sudo apt-get update && sudo apt-get install gfortran
+
+      - name: Set up netcdf
+        run: sudo install netcdf
+
+      - name: Build
+        run: make # Use the appropriate build command, e.g., make or ./build.sh
+
+      - name: Test
+        run: ./bin/SFT1D initial_parameter.nml # Modify for your specific testing procedure
+
