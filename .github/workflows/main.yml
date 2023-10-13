@@ -16,19 +16,22 @@ jobs:
       - name: Set up gfortran
         run: sudo apt-get update && sudo apt-get install gfortran
 
-      - name: Set up netcdf
-        id: netcdf-check
+      - name: Install NetCDF
         run: |
-          if [ ! -f /usr/include/netcdf.mod ]; then
-            echo "NetCDF not found, installing..."
-            sudo apt-get update -qq
-            sudo apt-get install -y libnetcdf-dev
-          else
-            echo "NetCDF is already installed."
-          fi
+          sudo apt-get update -qq
+          sudo apt-get install -y libnetcdf-dev
+        env:
+          NETCDF_DIR: /usr
+
+      - name: Set Library Paths
+        run: |
+          echo "/usr/lib/x86_64-linux-gnu" | sudo tee -a /etc/ld.so.conf.d/netcdf.conf
+          sudo ldconfig
+        env:
+          NETCDF_DIR: /usr
 
       - name: Find the location of netcdf libraries.
-        run: nf-config --all
+        run: nc-config --all
 
       - name: Build
         run: make -f makefile.git # Use the appropriate build command, e.g., make or ./build.sh
