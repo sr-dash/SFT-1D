@@ -15,8 +15,10 @@ jobs:
 
       - name: Set up gfortran and gcc
         run: |
-          sudo apt-get update && sudo apt-get install gfortran && sudo apt-get install -y gcc
-          sudo apt-get install -y openmpi-bin
+          sudo apt-get update > config.log 2>&1
+          sudo apt-get install gfortran > config.log 2>&1
+          sudo apt-get install -y gcc > config.log 2>&1
+          sudo apt-get install -y openmpi-bin > config.log 2>&1
 
       - name: Download and Set up netCDF.
         run: |
