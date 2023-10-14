@@ -2,8 +2,8 @@ name: Build LaTeX Documentation
 
 on:
   push:
-    branches:
-      - main  # Adjust to your branch name
+    paths:
+      - 'doc/'  # Define the path to your documentation directory
 
 jobs:
   build:
