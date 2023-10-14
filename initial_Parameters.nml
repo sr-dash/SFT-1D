@@ -14,7 +14,7 @@
 !--Bipole file location:
 	total_bipoles = 1643,
 	bipolefile = "bipole_file/all_bmrs.txt",
-	savesources = .TRUE.
+	savesources = .FALSE.
 	ADDBIPOLES = .TRUE.,
 	writefluximbalance = .TRUE.
 	/
