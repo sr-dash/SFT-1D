@@ -1,4 +1,6 @@
 # Set FORTRAN90 compiler
+# On my Mac the pdflatex location is
+# /usr/local/texlive/2023/bin/universal-darwin/pdflatex
 FC = gfortran
 
 # Location of files for netcdf library
@@ -19,6 +21,7 @@ TARGET = SFT_1D
 OBJDIR = obj
 BINDIR = bin
 DOCDIR = doc
+SRCDIR = src
 
 OBJFILES = main.o variables.o write_data.o output.o grid_SFT.o flows.o evolSFT.o init_condition.o
 FULLTARGET = $(BINDIR)/$(TARGET)
@@ -27,12 +30,14 @@ VPATH = $(SRCDIR):$(OBJDIR)
 
 # Rule to build the fortran files
 
-%.o: %.f90
+%.o: $(SRCDIR)/%.f90
 	@mkdir -p $(BINDIR) $(OBJDIR)
+	@cd $(SRCDIR)
 	$(FC) -c $(FFLAGS) $(NETCDF) $(parallelflags) -J $(OBJDIR) -o $(OBJDIR)/$@ $<
 
-%.o: %.F90
+%.o: $(SRCDIR)/%.F90
 	@mkdir -p $(BINDIR) $(OBJDIR) 
+	@cd $(SRCDIR)
 	$(FC) -c $(FFLAGS) $(NETCDF) $(parallelflags) -J $(OBJDIR) -o $(OBJDIR)/$@ $(PREPROFLAGS) $<
 
 $(FULLTARGET): $(OBJFILES)
