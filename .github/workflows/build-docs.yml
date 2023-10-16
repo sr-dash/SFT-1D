@@ -3,7 +3,7 @@ name: Build LaTeX Documentation
 on:
   push:
     paths:
-      - 'doc/'  # Define the path to your documentation directory
+      - 'doc/**'  # Define the path to your documentation directory
 
 jobs:
   build:
