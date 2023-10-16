@@ -90,7 +90,7 @@ FC = gfortran
 NETCDF = -I/usr/local/netcdf/include/
 NETCDFLIB = -L/usr/local/netcdf/lib/ -lnetcdff
 \end{verbatim}
-You need to change the paths and the compiler options according to your system. Once this is correctly specified, compile the code by typing \texttt{make}. This will create two additional sub-directories; \texttt{bin, obj}. The executable \texttt{SFT\_1D} will be created in the bin directory by compiling codes from \texttt{src} director, if there are no errors in the compilation process.
+You need to change the paths and the compiler options according to your system. Once this is correctly specified, compile the code by typing \texttt{make}. This will create two additional sub-directories; \texttt{bin, obj}. The executable \texttt{SFT\_1D} will be created in the bin directory by compiling codes from \texttt{src} directory, if there are no errors in the compilation process.
 
 \subsubsection{Running the code}
 Surface flux transport model requires two major input from the user. First being the meridional flow profile and magnetic diffusivity ($\eta$). And the second being the source functions i.e., bipole properties which are added to the evolution at the time when they appear on the solar photosphere. 
