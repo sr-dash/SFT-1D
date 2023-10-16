@@ -19,6 +19,7 @@ TARGET = SFT_1D
 OBJDIR = obj
 BINDIR = bin
 DOCDIR = doc
+SRCDIR = src
 
 OBJFILES = main.o variables.o write_data.o output.o grid_SFT.o flows.o evolSFT.o init_condition.o
 FULLTARGET = $(BINDIR)/$(TARGET)
@@ -27,12 +28,14 @@ VPATH = $(SRCDIR):$(OBJDIR)
 
 # Rule to build the fortran files
 
-%.o: %.f90
+%.o: $(SRCDIR)/%.f90
 	@mkdir -p $(BINDIR) $(OBJDIR)
+	@cd $(SRCDIR)
 	$(FC) -c $(FFLAGS) $(NETCDF) $(parallelflags) -J $(OBJDIR) -o $(OBJDIR)/$@ $<
 
-%.o: %.F90
+%.o: $(SRCDIR)/%.F90
 	@mkdir -p $(BINDIR) $(OBJDIR) 
+	@cd $(SRCDIR)
 	$(FC) -c $(FFLAGS) $(NETCDF) $(parallelflags) -J $(OBJDIR) -o $(OBJDIR)/$@ $(PREPROFLAGS) $<
 
 $(FULLTARGET): $(OBJFILES)
@@ -67,4 +70,3 @@ evolSFT.o:evolSFT.f90 variables.o grid_SFT.o flows.o
 init_condition.o:init_condition.f90 variables.o grid_SFT.o
 
 main.o: main.f90 variables.o write_data.o output.o grid_SFT.o flows.o evolSFT.o init_condition.o
-
