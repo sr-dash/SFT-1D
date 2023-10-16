@@ -99,6 +99,10 @@ Surface flux transport model requires two major input from the user. First being
     \item Meridional flow profile is defined in the subroutine \texttt{MC\_flow} contained in \texttt{flows.f90} file. 
     \item Magnetic diffusivity ($\eta$) is defined in units of km$^2$/s in the \texttt{initial\_Parameters.nml} file.
 \end{itemize}
-These parameters are passed to the code using a \texttt{namelist} file \texttt{initial\_Parameters.nml}. This will create the necessary subdirectories for saving the output and execute the code based on the selected parameters. After compiling the code, type \texttt{>./bin/SFT\_1D initial\_Parameters.nml} to run the simulation.
+These parameters are passed to the code using a \texttt{namelist} file \texttt{initial\_Parameters.nml}. This will create the necessary subdirectories for saving the output and execute the code based on the selected parameters. After compiling the code, type 
+\begin{verbatim}
+>./bin/SFT\_1D initial\_Parameters.nml
+\end{verbatim}
+to run the simulation.
 
 There is a sample plotting file (\texttt{plot\_results.py}) is also distributed with this version of the code along with some supporting files. If all the necessary python packages are available, this script will generate the butterfly diagram, comparative plot between the HMI polar field and the SFT polar field and the dipole moment. With the current set of initial conditions, the example of these plots are provided with this version of the code. 
