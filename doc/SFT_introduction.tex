@@ -45,19 +45,28 @@ The top level directory contains the following subdirectories:
 \item {\tt doc}     - the documentation directory 
 \item {\tt bipole\_file} - the bipole properties to generate the source terms for the model
 \item {\tt input\_files}  - initial magnetic field configuration for the SFT code, typically a synoptic magnetogram interpolated into the targeted sine-latitude -- longitude grid 
+\item {\tt src} - all the fortran routines for building the executable
+\item {\tt plots} - some example plots of a standard run
 \end{itemize}
 and the following files
 \begin{itemize}\itemsep=0pt
-\item {\tt evolSFT.f90}     - a short instruction on installation and usage
-\item {\tt flows.f90}     - description of CON parameters
-\item {\tt grid\-SFT.f90}   - to construct the grid of the solver
-\item {\tt init\_condition.f90} - code to set-up the initial conditions
 \item {\tt initial\_Parameters.nml} - user input of the initial parameter values for the variables
-\item {\tt Makefile}      - the main makefile
-\item {\tt output.f90}  - subroutine to write the files in ASCII format
+\item {\tt Makefile} - the main makefile
+\item{\tt makefile.git} - makefile to build and test the code on github with continous integration (CI)
+\item {\tt hmi\_polar\_field.p} - pickle file contaiing HMI observed polar field obtained from JSOC webpage
+\item{\tt install\_netcdf.sh} - shell script to download and install necessary netCDF libraries on a linux system
+\end{itemize}
+There are eight fortran files in the \texttt{src} directory which cotains the source code.
+
+\begin{itemize}\itemsep=0pt
+\item {\tt evolSFT.f90} - a short instruction on installation and usage
+\item {\tt flows.f90} - description of CON parameters
+\item {\tt grid\-SFT.f90} - to construct the grid of the solver
+\item {\tt init\_condition.f90} - code to set-up the initial conditions
+\item {\tt output.f90} - subroutine to write the files in ASCII format
 \item {\tt main.f90} - the main code
 \item {\tt variables.f90} - definition of the variables to be used in the code
-\item {\tt write\_data.f90} - code to write the output data in netCDF format
+\item {\tt write\_data.f90} - code to write the output data in netCDF format.
 \end{itemize}
 
 \section{General Hints}
