@@ -27,7 +27,8 @@ CONTAINS
 
  NAMELIST /user/ dataDir, input_files, nthUnif, nphUnif,  &
                  L, eta, tau, C, total_bipoles, bipolefile, &
-                 savesources,ADDBIPOLES,writefluximbalance
+                 savesources,ADDBIPOLES,writefluximbalance, &
+                 mc1
 
  OPEN(111, FILE=TRIM(parameterFile),STATUS='old')
  READ(111,nml=user) 
@@ -50,7 +51,6 @@ SUBROUTINE setup_grid
  ALLOCATE(phc1(1:nphUnif))
 
  ALLOCATE(MC_vel(0:nthUnif-2))
- 
 
 ds = 2.0_dp/nthUnif
 dphi = 2*pi/nphUnif

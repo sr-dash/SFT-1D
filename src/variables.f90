@@ -13,6 +13,7 @@ MODULE variables
  CHARACTER(LEN=200):: dataDir,bipolefile,input_files,bmrdir
  INTEGER, PARAMETER :: dp = KIND(1.D0)
  LOGICAL :: ADDBIPOLES,writefluximbalance,savesources
+ LOGICAL :: mc1
  REAL(dp), PARAMETER :: cflFact=0.1_dp
  REAL(dp), PARAMETER :: pi = 3.14159265358979323_dp
  REAL(dp), PARAMETER :: dtor = pi/180.0_dp
@@ -26,7 +27,7 @@ MODULE variables
  REAL(dp), ALLOCATABLE :: lat0(:),lon0(:),sep0(:),tilt0(:),B0(:),sharpnum(:)
  REAL(dp), ALLOCATABLE :: t_yr(:), phase(:)
  
- REAL(dp), ALLOCATABLE :: MC_vel(:)
+ REAL(dp), ALLOCATABLE :: MC_vel(:),MC_vel_inf(:)
  REAL(dp), ALLOCATABLE :: arrTx(:), arrTy(:,:)
  REAL(dp) :: ds, dphi, L, eta, dt, tau, bmr_a
  REAL(dp) :: dt_eta, dt_mf

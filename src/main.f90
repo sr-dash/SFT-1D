@@ -29,12 +29,25 @@ PROGRAM SFT_1D
  WRITE (snap2, FMT='(i5.3)') int(eta)
  snap2 = ADJUSTL(snap2)
  
+ IF (mc1) THEN
  CALL MC_flow(C,sg,MC_vel)
-
+ !MC_vel = MC_vel*(1.0_dp - sg**2)
+ END IF
+ 
+ IF (mc1) THEN
+ WRITE (snap3, FMT='(i5.3)') int(MAXVAL(MC_vel)*10E3)
+ snap3 = ADJUSTL(snap3)
+ END IF
  
  tau = 0.0_dp*day*year
  eta = eta/(L**2)
  MC_vel = Mc_vel/L
+ 
+ CALL File_name('MC_vel'//TRIM(snap3),16,FO=1)
+ DO i=0,nthUnif-2
+ WRITE(16,*)sg(i),MC_vel(i)
+ END DO
+ CLOSE(16)
 
  MC_vel = MC_vel*(1.0_dp - sg**2)
 
@@ -47,14 +60,6 @@ ALLOCATE(br_1D(0:nthUnif-1))
 ALLOCATE(brb(0:nthUnif-1,0:nphUnif-1))
 
  CALL read_bipolefile
-
- WRITE (snap3, FMT='(i5.3)') int(C*10E3)
- snap3 = ADJUSTL(snap3)
- CALL File_name('MC_vel'//TRIM(snap3),16,FO=1)
- DO i=0,nthUnif-2
- WRITE(16,*)sg(i),MC_vel(i)
- END DO
- CLOSE(16)
  
  OPEN(13, FILE=TRIM(input_files)//'/CR2097.dat', STATUS="old", ACTION="read")
  DO i = 0,nthUnif-1
@@ -113,6 +118,7 @@ END IF
 
  DO j = 1, ndt
  FV_flx(0:nthUnif) = 0.0_dp
+
  ! Diffusion term
  FV_flx(1:nthUnif-1) = eta*(1.0_dp - sg**2)*(br_1D(1:) - br_1D(:nthUnif-2))/ds
  ! Meridional flow by Up-Winding

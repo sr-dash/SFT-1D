@@ -10,11 +10,12 @@
 	eta = 450.0,
 	tau = 0.0,
 !--Meridional flow parameters:
-	C = 15.5E-3;
+	C = 30.7E-3;
 !--Bipole file location:
-	total_bipoles = 1643,
+	total_bipoles = 1,
 	bipolefile = "bipole_file/all_bmrs.txt",
 	savesources = .FALSE.
 	ADDBIPOLES = .TRUE.,
-	writefluximbalance = .TRUE.
+	writefluximbalance = .TRUE.,
+	mc1 = .TRUE.
 	/
