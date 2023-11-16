@@ -138,7 +138,11 @@ END IF
  END IF
 
 IF (restart) THEN
-
+ DO idummy=1,total_bipoles
+ IF(istart .GT. phase(idummy)) THEN
+ bip_start = idummy+1
+ END IF
+ END DO
 
  DO i=istart , nsteps
  IF (ADDBIPOLES) THEN
@@ -146,7 +150,7 @@ IF (restart) THEN
 
   IF (i .LT. int(phase(total_bipoles))) THEN
  
- DO k1 = restartDay,total_bipoles
+ DO k1 = bip_start,total_bipoles
     IF (i .EQ. int(phase(k1))) THEN
  CALL make_bipole(sc,phc,dtor*lat0(k1),dtor*lon0(k1),dtor*sep0(k1)*bmr_a,dtor*tilt0(k1),1.0_dp,brb)
  !Scale the BMR with the observed magnetic field 

@@ -37,6 +37,6 @@ MODULE variables
  REAL(dp) :: dm_1D
  INTEGER :: nthUnif, nphUnif, ndt, total_bipoles
  INTEGER :: i, j, k, k1, nsteps
- INTEGER :: i1, j1, istart, junk1
+ INTEGER :: i1, j1, istart, junk1,idummy,bip_start
 
 END MODULE variables
