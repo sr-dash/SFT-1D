@@ -1,5 +1,3 @@
-output_files
-restart_files
+output_inflow_ori
+output_inflow_1
 obj
-restart_01095
-restart_01825

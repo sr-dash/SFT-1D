@@ -10,17 +10,15 @@
 MODULE variables
 
  IMPLICIT NONE
- CHARACTER(LEN=200) :: dataDir, bipolefile, bFile
- CHARACTER(LEN=200) :: input_files, bmrdir, restartDir
+ CHARACTER(LEN=200):: dataDir,bipolefile,input_files,bmrdir,mcfile
  INTEGER, PARAMETER :: dp = KIND(1.D0)
- LOGICAL :: ADDBIPOLES, writefluximbalance, savesources
- LOGICAL :: mc1, saverestart, restart
- INTEGER :: restartfreq, restartDay
+ LOGICAL :: ADDBIPOLES,writefluximbalance,savesources
+ LOGICAL :: mc1, mc2, inflow
  REAL(dp), PARAMETER :: cflFact=0.1_dp
  REAL(dp), PARAMETER :: pi = 3.14159265358979323_dp
  REAL(dp), PARAMETER :: dtor = pi/180.0_dp
 !REAL(dp), PARAMETER :: rtod = 180.0_dp/pi
- REAL(dp) :: C,P,du,C1
+ REAL(dp) :: C,P,du
  REAL(dp), ALLOCATABLE :: br_1D(:),time_var(:)
  REAL(dp), ALLOCATABLE :: FV_flx(:)
  REAL(dp), ALLOCATABLE :: br_2D(:,:), brb(:,:),bfly(:,:)
@@ -31,12 +29,12 @@ MODULE variables
  
  REAL(dp), ALLOCATABLE :: MC_vel(:),MC_vel_inf(:)
  REAL(dp), ALLOCATABLE :: arrTx(:), arrTy(:,:)
- REAL(dp) :: ds, dphi, L, eta, eta1, dt, tau, bmr_a
+ REAL(dp) :: ds, dphi, L, eta, dt, tau, bmr_a
  REAL(dp) :: dt_eta, dt_mf
  REAL(dp) :: year, day
  REAL(dp) :: dm_1D
  INTEGER :: nthUnif, nphUnif, ndt, total_bipoles
  INTEGER :: i, j, k, k1, nsteps
- INTEGER :: i1, j1, istart, junk1,idummy,bip_start
+ INTEGER :: i1, j1
 
 END MODULE variables

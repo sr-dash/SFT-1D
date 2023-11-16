@@ -24,13 +24,11 @@ CONTAINS
 
  SUBROUTINE ReadfromUser(parameterFile)
  CHARACTER*(*), INTENT(IN):: parameterFile
- 
 
  NAMELIST /user/ dataDir, input_files, nthUnif, nphUnif,  &
                  L, eta, tau, C, total_bipoles, bipolefile, &
                  savesources,ADDBIPOLES,writefluximbalance, &
-                 mc1,saverestart,restartfreq,restartDir, &
-                 restart, restartDay
+                 mc1,mc2,inflow,mcfile
 
  OPEN(111, FILE=TRIM(parameterFile),STATUS='old')
  READ(111,nml=user) 
@@ -41,10 +39,6 @@ CONTAINS
  IF (savesources) THEN
  CALL System("mkdir -p "//TRIM(bmrdir))
  END IF
- IF (saverestart) THEN
- CALL System("mkdir -p "//TRIM(restartDir))
- END IF
- 
  END SUBROUTINE ReadfromUser
 
 SUBROUTINE setup_grid
@@ -57,6 +51,7 @@ SUBROUTINE setup_grid
  ALLOCATE(phc1(1:nphUnif))
 
  ALLOCATE(MC_vel(0:nthUnif-2))
+ ALLOCATE(MC_vel_inf(0:nthUnif-2))
 
 ds = 2.0_dp/nthUnif
 dphi = 2*pi/nphUnif
