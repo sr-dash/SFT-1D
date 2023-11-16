@@ -10,10 +10,12 @@
 MODULE variables
 
  IMPLICIT NONE
- CHARACTER(LEN=200):: dataDir,bipolefile,input_files,bmrdir
+ CHARACTER(LEN=200) :: dataDir, bipolefile
+ CHARACTER(LEN=200) :: input_files, bmrdir, restartDir
  INTEGER, PARAMETER :: dp = KIND(1.D0)
- LOGICAL :: ADDBIPOLES,writefluximbalance,savesources
- LOGICAL :: mc1
+ LOGICAL :: ADDBIPOLES, writefluximbalance, savesources
+ LOGICAL :: mc1, saverestart, restart
+ INTEGER :: restartfreq, restartDay
  REAL(dp), PARAMETER :: cflFact=0.1_dp
  REAL(dp), PARAMETER :: pi = 3.14159265358979323_dp
  REAL(dp), PARAMETER :: dtor = pi/180.0_dp

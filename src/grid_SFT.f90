@@ -28,7 +28,8 @@ CONTAINS
  NAMELIST /user/ dataDir, input_files, nthUnif, nphUnif,  &
                  L, eta, tau, C, total_bipoles, bipolefile, &
                  savesources,ADDBIPOLES,writefluximbalance, &
-                 mc1
+                 mc1,saverestart,restartfreq,restartDir, &
+                 restart, restartDay
 
  OPEN(111, FILE=TRIM(parameterFile),STATUS='old')
  READ(111,nml=user) 
@@ -38,6 +39,9 @@ CONTAINS
  bmrdir = TRIM(dataDir)//TRIM('/BMRs')
  IF (savesources) THEN
  CALL System("mkdir -p "//TRIM(bmrdir))
+ END IF
+ IF (saverestart) THEN
+ CALL System("mkdir -p "//TRIM(restartDir))
  END IF
  END SUBROUTINE ReadfromUser
 

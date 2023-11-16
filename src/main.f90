@@ -20,7 +20,7 @@ PROGRAM SFT_1D
  IMPLICIT NONE
  
  CHARACTER(64):: parameterFile
- CHARACTER*(5) :: snap1,snap2,snap3
+ CHARACTER*(5) :: snap1,snap2,snap3,snap4
  
  CALL get_command_argument(1, parameterFile)
  CALL ReadfromUser(parameterFile)
@@ -138,6 +138,20 @@ END IF
  
  END DO
  
+ IF (saverestart) THEN
+   IF (MODULO(i,restartfreq) .EQ. 0) THEN
+      WRITE (snap4, FMT='(i5.5)') i
+      OPEN(15, FILE=TRIM(restartDir)//'/res_'//TRIM(snap4)//'.txt', STATUS="unknown", ACTION="write")
+      WRITE(15,fmt='(I5.5)')i
+      WRITE(15,fmt='(F7.5)')C
+      WRITE(15,fmt='(F7.3)')eta*(L**2)
+      WRITE(15,fmt='(A)')TRIM(TRIM(restartDir)//'/b_'//TRIM(snap4)//'.dat')
+      CLOSE(15)
+      OPEN(17, FILE=TRIM(restartDir)//'/b_'//TRIM(snap4)//'.txt', STATUS="unknown", ACTION="write")
+      WRITE(17, *)br_1D
+      CLOSE(17)
+   END IF
+ END IF
  
  dm_1D = 1.5_dp*SUM((br_1D)*sc*ds)
  bfly(i,:) = br_1D
