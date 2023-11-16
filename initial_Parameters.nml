@@ -12,7 +12,7 @@
 !--Meridional flow parameters:
 	C = 30.7E-3,
 !--Bipole file location:
-	total_bipoles = 1,
+	total_bipoles = 1643,
 	bipolefile = "bipole_file/all_bmrs.txt",
 	savesources = .FALSE.
 	ADDBIPOLES = .TRUE.,
@@ -20,9 +20,9 @@
 	mc1 = .TRUE.,
 !--Restart files (freq in days):
 	saverestart = .TRUE.
-	restartfreq = 30,
+	restartfreq = 365,
 	restartDir = "restart_files",
 !--Restart simulation (in days):
-	restart = .FALSE.,
-	restartDay = 90
+	restart = .TRUE.,
+	restartDay = 1095
 	/

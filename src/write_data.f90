@@ -10,6 +10,7 @@
 MODULE write_data
 
  USE variables
+ USE grid_SFT
 
 CONTAINS
 !****************************************************************
@@ -74,39 +75,78 @@ SUBROUTINE BflyNetCDF(filename,bfly_file)
  !INTEGER(KIND=4) :: dm_varid
  INTEGER, PARAMETER :: dataType=NF90_REAL  ! set to NF90_REAL or NF90_DOUBLE
 
-! ------------------------------------
-! Open file:
-CALL Check(nf90_create(TRIM(dataDir)//'/'//filename//'.nc', &
-    NF90_CLOBBER, ncid))
-! Make definitions:
-CALL Check(nf90_def_dim(ncid,"sth",nthUnif,th_dimid))
-CALL Check(nf90_def_var(ncid,"sth",dataType,th_dimid,th_varid))
-CALL Check(nf90_def_dim(ncid,"time",nsteps+1,time_dimid))
-CALL Check(nf90_def_var(ncid,"time",dataType,time_dimid,time_varid))
+IF (restart) THEN
 
-IF (PRESENT(bfly_file)) THEN
-CALL Check(nf90_def_var(ncid,"bfly",dataType, &
-     (/ time_dimid, th_dimid /),bfly_varid))
+    ! ------------------------------------
+    ! Open file:
+    CALL Check(nf90_create(filename//'.nc', &
+        NF90_CLOBBER, ncid))
+    ! Make definitions:
+    CALL Check(nf90_def_dim(ncid,"sth",nthUnif,th_dimid))
+    CALL Check(nf90_def_var(ncid,"sth",dataType,th_dimid,th_varid))
+    CALL Check(nf90_def_dim(ncid,"time",nsteps-restartDay+1,time_dimid))
+    CALL Check(nf90_def_var(ncid,"time",dataType,time_dimid,time_varid))
+
+    IF (PRESENT(bfly_file)) THEN
+    CALL Check(nf90_def_var(ncid,"bfly",dataType, &
+         (/ time_dimid, th_dimid /),bfly_varid))
+    END IF
+
+    CALL Check(nf90_enddef(ncid))
+
+    ! Output coordinate arrays to file:
+    CALL Check(nf90_put_var(ncid,th_varid,sc(0:nthUnif-1)))
+    CALL Check(nf90_put_var(ncid,time_varid,time_var(0:nsteps-restartDay)))
+
+    IF (PRESENT(bfly_file)) THEN
+    ! (1) Butterfly diagram
+    ! ------------------
+    ! Output variable to file:
+
+    arrTy = bfly(0:nsteps-restartDay,0:nthUnif-1)
+    CALL Check(nf90_put_var(ncid,bfly_varid,arrTy)) 
+    END IF
+
+
+    ! Close and write the file
+    CALL Check(nf90_close(ncid))
+
+ELSE
+    ! ------------------------------------
+    ! Open file:
+    CALL Check(nf90_create(filename//'.nc', &
+        NF90_CLOBBER, ncid))
+    ! Make definitions:
+    CALL Check(nf90_def_dim(ncid,"sth",nthUnif,th_dimid))
+    CALL Check(nf90_def_var(ncid,"sth",dataType,th_dimid,th_varid))
+    CALL Check(nf90_def_dim(ncid,"time",nsteps+1,time_dimid))
+    CALL Check(nf90_def_var(ncid,"time",dataType,time_dimid,time_varid))
+
+    IF (PRESENT(bfly_file)) THEN
+    CALL Check(nf90_def_var(ncid,"bfly",dataType, &
+         (/ time_dimid, th_dimid /),bfly_varid))
+    END IF
+
+    CALL Check(nf90_enddef(ncid))
+
+    ! Output coordinate arrays to file:
+    CALL Check(nf90_put_var(ncid,th_varid,sc(0:nthUnif-1)))
+    CALL Check(nf90_put_var(ncid,time_varid,time_var(0:nsteps)))
+
+    IF (PRESENT(bfly_file)) THEN
+    ! (1) Butterfly diagram
+    ! ------------------
+    ! Output variable to file:
+
+    arrTy = bfly(0:nsteps,0:nthUnif-1)
+    CALL Check(nf90_put_var(ncid,bfly_varid,arrTy)) 
+    END IF
+
+
+    ! Close and write the file
+    CALL Check(nf90_close(ncid))
+
 END IF
-
-CALL Check(nf90_enddef(ncid))
-
-! Output coordinate arrays to file:
-CALL Check(nf90_put_var(ncid,th_varid,sc(0:nthUnif-1)))
-CALL Check(nf90_put_var(ncid,time_varid,time_var(0:nsteps)))
-
-IF (PRESENT(bfly_file)) THEN
-! (1) Butterfly diagram
-! ------------------
-! Output variable to file:
-
-arrTy = bfly(0:nsteps,0:nthUnif-1)
-CALL Check(nf90_put_var(ncid,bfly_varid,arrTy)) 
-END IF
-
-
-! Close and write the file
-CALL Check(nf90_close(ncid))
 
 END SUBROUTINE BflyNetCDF
 

@@ -24,6 +24,7 @@ CONTAINS
 
  SUBROUTINE ReadfromUser(parameterFile)
  CHARACTER*(*), INTENT(IN):: parameterFile
+ 
 
  NAMELIST /user/ dataDir, input_files, nthUnif, nphUnif,  &
                  L, eta, tau, C, total_bipoles, bipolefile, &
@@ -43,6 +44,7 @@ CONTAINS
  IF (saverestart) THEN
  CALL System("mkdir -p "//TRIM(restartDir))
  END IF
+ 
  END SUBROUTINE ReadfromUser
 
 SUBROUTINE setup_grid
