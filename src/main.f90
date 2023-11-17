@@ -148,7 +148,7 @@ IF (restart) THEN
  IF (ADDBIPOLES) THEN
  brb(0:nthUnif-1,0:nphUnif-1) = 0.0_dp
 
-  IF (i .LT. int(phase(total_bipoles))) THEN
+  IF (i .LE. int(phase(total_bipoles))) THEN
  
  DO k1 = bip_start,total_bipoles
     IF (i .EQ. int(phase(k1))) THEN
@@ -215,7 +215,7 @@ ELSE
  IF (ADDBIPOLES) THEN
  brb(0:nthUnif-1,0:nphUnif-1) = 0.0_dp
 
-    IF (i .LT. int(phase(total_bipoles))) THEN
+    IF (i .LE. int(phase(total_bipoles))) THEN
     
        DO k1 = 1,total_bipoles
          IF (i .EQ. int(phase(k1))) THEN
