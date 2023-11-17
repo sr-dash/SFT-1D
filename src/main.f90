@@ -20,8 +20,8 @@ PROGRAM SFT_1D
  IMPLICIT NONE
  
  CHARACTER(64):: parameterFile
- CHARACTER(64) :: restartedoutput
- CHARACTER*(5) :: snap1,snap2,snap3,snap4,snap5
+ CHARACTER(64) :: restartedoutput,restartedoutput_stop
+ CHARACTER*(5) :: snap1,snap2,snap3,snap4,snap5,snap6
  
  CALL get_command_argument(1, parameterFile)
  CALL ReadfromUser(parameterFile)
@@ -45,7 +45,9 @@ ALLOCATE(brb(0:nthUnif-1,0:nphUnif-1))
 ! Restart simulation functionalities.
  IF (restart) THEN
    WRITE(snap5,FMT='(i5.5)')restartDay
-   OPEN(21, FILE=TRIM(restartDir)//'/res_'//TRIM(snap5)//'.txt', STATUS="unknown", ACTION="read")
+   ! WRITE (snap4, FMT='(i5.5)') i
+   WRITE(restartDir,*)TRIM('restart_'//snap5)
+   OPEN(21, FILE=TRIM(ADJUSTL(restartDir))//'/res_'//TRIM(snap5)//'.txt', STATUS="unknown", ACTION="read")
    READ(21,fmt='(I5.5)')junk1
    READ(21,fmt='(F7.5)')C1
    READ(21,fmt='(F7.3)')eta1
@@ -63,6 +65,7 @@ ALLOCATE(brb(0:nthUnif-1,0:nphUnif-1))
    br_1D = SUM(br_2D, 2)/SIZE(br_2D,2)
    dm_1D = 1.5_dp*SUM(br_1D*sc*ds)
  END IF
+
 
 
 
@@ -91,6 +94,18 @@ ELSE
 END IF
  MC_vel = Mc_vel/L
  
+CALL System("mkdir -p "//TRIM('restart_00000'))
+OPEN(315, FILE=TRIM(ADJUSTL('restart_00000'))//'/res_00000.txt', STATUS="unknown", ACTION="write")
+WRITE(315,fmt='(I5.5)')0
+WRITE(315,fmt='(F7.5)')C
+WRITE(315,fmt='(F7.3)')eta*(L**2)
+WRITE(315,fmt='(A)')TRIM(TRIM(ADJUSTL('restart_00000'))//'/b_00000.txt')
+CLOSE(315)
+OPEN(317, FILE=TRIM(ADJUSTL('restart_00000'))//'/b_00000.txt', STATUS="unknown", ACTION="write")
+WRITE(317, *)br_1D
+CLOSE(317)
+
+
  CALL File_name('MC_vel'//TRIM(snap3),16,FO=1)
  DO i=0,nthUnif-2
  WRITE(16,*)sg(i),MC_vel(i)
@@ -113,7 +128,11 @@ IF (writefluximbalance) THEN
     END IF    
 END IF
  FV_flx = 0.0_dp
- nsteps = 14*365
+ IF (restart) THEN
+   nsteps = stop_res
+ ELSE
+   nsteps = 14*365
+ END IF 
  IF (restart) THEN
   ALLOCATE(bfly(0:nsteps-restartDay,0:nthUnif-1))
   bfly(0,:) = br_1D
@@ -125,14 +144,16 @@ END IF
   bfly(0,:) = br_1D
   ALLOCATE(time_var(0:nsteps))
   time_var(0) = 2010.457221081451_dp
-  PRINT*,SIZE(bfly,1),SIZE(bfly,2),nsteps
  END IF
  k1 = 1
  
  bmr_a = 0.56_dp
 
- IF (restart) THEN
-   istart = restartDay
+ IF (restart .AND. restartDay .EQ. 0) THEN
+      restartDay = 1
+      istart = restartDay
+ ELSE IF (restart .AND. restartDay .NE. 0) THEN
+      istart = restartDay
  ELSE
    istart = 1
  END IF
@@ -140,7 +161,9 @@ END IF
 IF (restart) THEN
  DO idummy=1,total_bipoles
  IF(istart .GT. phase(idummy)) THEN
- bip_start = idummy+1
+   bip_start = idummy+1
+ ELSE
+   bip_start=1 
  END IF
  END DO
 
@@ -199,9 +222,27 @@ IF (restart) THEN
  IF (writefluximbalance) THEN
  WRITE(19,*)i, SUM(br_1D)
  END IF
+! Save restarted simulation at the provided stop day.
+ IF (restart .AND. i .EQ. nsteps) THEN
+      WRITE(snap6, FMT='(i5.5)')i
+      WRITE(restartedoutput_stop,*)TRIM('restart_'//snap6)
+      CALL System("mkdir -p "//TRIM(restartedoutput_stop))
+      print*,restartedoutput_stop
+      OPEN(215, FILE=TRIM(ADJUSTL(restartedoutput_stop))//'/res_'//TRIM(snap6)//'.txt', STATUS="unknown", ACTION="write")
+      WRITE(215,fmt='(I5.5)')i
+      WRITE(215,fmt='(F7.5)')C
+      WRITE(215,fmt='(F7.3)')eta*(L**2)
+      WRITE(215,fmt='(A)')TRIM(TRIM(ADJUSTL(restartedoutput_stop))//'/b_'//TRIM(snap6)//'.txt')
+      CLOSE(215)
+      OPEN(217, FILE=TRIM(ADJUSTL(restartedoutput_stop))//'/b_'//TRIM(snap6)//'.txt', STATUS="unknown", ACTION="write")
+      WRITE(217, *)br_1D
+      CLOSE(217)
+   END IF
 
  END DO
  CLOSE(12)
+ 
+   
 
  IF (writefluximbalance) THEN
  CLOSE(19)
@@ -261,13 +302,15 @@ ELSE
  IF (saverestart) THEN
    IF (MODULO(i,restartfreq) .EQ. 0) THEN
       WRITE (snap4, FMT='(i5.5)') i
-      OPEN(15, FILE=TRIM(restartDir)//'/res_'//TRIM(snap4)//'.txt', STATUS="unknown", ACTION="write")
+      WRITE(restartDir,*)TRIM('restart_'//snap4)
+      CALL System("mkdir -p "//TRIM(restartDir))
+      OPEN(15, FILE=TRIM(ADJUSTL(restartDir))//'/res_'//TRIM(snap4)//'.txt', STATUS="unknown", ACTION="write")
       WRITE(15,fmt='(I5.5)')i
       WRITE(15,fmt='(F7.5)')C
       WRITE(15,fmt='(F7.3)')eta*(L**2)
       WRITE(15,fmt='(A)')TRIM(TRIM(restartDir)//'/b_'//TRIM(snap4)//'.txt')
       CLOSE(15)
-      OPEN(17, FILE=TRIM(restartDir)//'/b_'//TRIM(snap4)//'.txt', STATUS="unknown", ACTION="write")
+      OPEN(17, FILE=TRIM(ADJUSTL(restartDir))//'/b_'//TRIM(snap4)//'.txt', STATUS="unknown", ACTION="write")
       WRITE(17, *)br_1D
       CLOSE(17)
    END IF

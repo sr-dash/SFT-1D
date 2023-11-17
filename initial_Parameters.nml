@@ -24,5 +24,6 @@
 	restartDir = "restart_files",
 !--Restart simulation (in days):
 	restart = .TRUE.,
-	restartDay = 1825
+	restartDay = 0,
+	stop_res = 2500
 	/

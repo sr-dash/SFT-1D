@@ -15,7 +15,7 @@ MODULE variables
  INTEGER, PARAMETER :: dp = KIND(1.D0)
  LOGICAL :: ADDBIPOLES, writefluximbalance, savesources
  LOGICAL :: mc1, saverestart, restart
- INTEGER :: restartfreq, restartDay
+ INTEGER :: restartfreq, restartDay, stop_res
  REAL(dp), PARAMETER :: cflFact=0.1_dp
  REAL(dp), PARAMETER :: pi = 3.14159265358979323_dp
  REAL(dp), PARAMETER :: dtor = pi/180.0_dp

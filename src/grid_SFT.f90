@@ -30,7 +30,7 @@ CONTAINS
                  L, eta, tau, C, total_bipoles, bipolefile, &
                  savesources,ADDBIPOLES,writefluximbalance, &
                  mc1,saverestart,restartfreq,restartDir, &
-                 restart, restartDay
+                 restart, restartDay, stop_res
 
  OPEN(111, FILE=TRIM(parameterFile),STATUS='old')
  READ(111,nml=user) 
