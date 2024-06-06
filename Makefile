@@ -4,6 +4,8 @@
 FC = gfortran
 
 # Location of files for netcdf library
+# Replace it according to your system configuration. 
+
 NETCDF = -I/usr/local/netcdf/include/
 NETCDFLIB = -L/usr/local/netcdf/lib/ -lnetcdff
 
@@ -64,9 +66,9 @@ help:
 
 # All the dependencies
 variables.o:variables.f90
-write_data.o:write_data.f90 variables.o
 output.o:output.f90 variables.o
 grid_SFT.o:grid_SFT.f90 flows.o variables.o
+write_data.o:write_data.f90 variables.o grid_SFT.o
 flows.o:flows.f90 variables.o
 evolSFT.o:evolSFT.f90 variables.o grid_SFT.o flows.o
 init_condition.o:init_condition.f90 variables.o grid_SFT.o

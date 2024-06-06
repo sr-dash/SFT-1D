@@ -9,12 +9,22 @@
 	L = 6.96e5,
 	eta = 450.0,
 	tau = 0.0,
+	stopDay = 5111,
 !--Meridional flow parameters:
-	C = 15.5E-3;
+C = 30.7,
 !--Bipole file location:
 	total_bipoles = 1643,
 	bipolefile = "bipole_file/all_bmrs.txt",
 	savesources = .FALSE.
 	ADDBIPOLES = .TRUE.,
-	writefluximbalance = .TRUE.
+	writefluximbalance = .FALSE.,
+	mc1 = .TRUE.,
+!--Restart files (freq in days):
+	saverestart = .FALSE.
+	restartfreq = 500,
+	restartDir = "restart_files",
+!--Restart simulation (in days):
+	restart = .FALSE.,
+restartDay = 0500,
+stop_res = 01300
 	/

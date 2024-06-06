@@ -1,15 +1,25 @@
-!<---------------------------------------------------------------------->!
+!<------------------------------------------------------------------>!
 !				Surface Flux Transport model 1D
-!This is the netCDF output routine below. For detailed theory of the setup 
-!refer to the doc file.
+!This is the grid setup routine below. 
+!For detailed theory of the setup refer to the doc file.
 !
 !Author: Soumyaranjan Dash
 !Date: Jul 14 2023
-!! Compile with gfortran -I/usr/local/include -L/usr/local/lib -lnetcdff -O2 -Wall -Wtabs grid_MF.f90 -o grid_SFT
-!!# Location of files for netcdf library
-!!NETCDF = -I/usr/local/include
-!!NETCDFLIB = -L/usr/local/lib -lnetcdff
-!! You can use the Makefile now.
+
+! Copyright (C) Soumyaranjan Dash, University of Hawaii
+
+! This program is free software: you can redistribute it and/or modify
+! it under the terms of the GNU General Public License as published by
+! the Free Software Foundation, either version 3 of the License, or
+! (at your option) any later version.
+
+! This program is distributed in the hope that it will be useful,
+! but WITHOUT ANY WARRANTY; without even the implied warranty of
+! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+! GNU General Public License for more details.
+
+! You should have received a copy of the GNU General Public License
+! along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
@@ -24,10 +34,13 @@ CONTAINS
 
  SUBROUTINE ReadfromUser(parameterFile)
  CHARACTER*(*), INTENT(IN):: parameterFile
+ 
 
  NAMELIST /user/ dataDir, input_files, nthUnif, nphUnif,  &
-                 L, eta, tau, C, total_bipoles, bipolefile, &
-                 savesources,ADDBIPOLES,writefluximbalance
+                 L, eta, tau, stopDay, C, total_bipoles, bipolefile, &
+                 savesources,ADDBIPOLES,writefluximbalance, &
+                 mc1,saverestart,restartfreq,restartDir, &
+                 restart, restartDay, stop_res
 
  OPEN(111, FILE=TRIM(parameterFile),STATUS='old')
  READ(111,nml=user) 
@@ -38,6 +51,10 @@ CONTAINS
  IF (savesources) THEN
  CALL System("mkdir -p "//TRIM(bmrdir))
  END IF
+ IF (saverestart) THEN
+ CALL System("mkdir -p "//TRIM(restartDir))
+ END IF
+ 
  END SUBROUTINE ReadfromUser
 
 SUBROUTINE setup_grid
@@ -50,7 +67,6 @@ SUBROUTINE setup_grid
  ALLOCATE(phc1(1:nphUnif))
 
  ALLOCATE(MC_vel(0:nthUnif-2))
- 
 
 ds = 2.0_dp/nthUnif
 dphi = 2*pi/nphUnif
