@@ -13,4 +13,10 @@ This project includes LaTeX documentation that you can access in PDF format.
 
 This is currently under developmet. 
 
+For plotting teh results a sample plotting routine is provided in the repository. To install the dependencies please run the following command before executing the python script.
+
+```shell
+$ pip install -r requirements.txt
+```
+
 Feel free to explore the documentation, and if you have any questions or feedback, please [reach out](dashs@hawaii.edu).
