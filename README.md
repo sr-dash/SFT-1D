@@ -13,13 +13,21 @@ This project includes LaTeX documentation that you can access in PDF format.
 
 This is currently under developmet. 
 
-File reading/writing operatins in the SFT model uses NETCDF library. For a fresh installation of the libraries and it's dependencies, run the following:
+For ease of installing the dependecies, supporting packages and building the executable please follow the steps mentioned below. 
+
+* File reading/writing operatins in the SFT model uses NETCDF library. For a fresh installation of the libraries and it's dependencies, run the following:
 
 ```shell
 $ bash install_netcdf.sh
 ```
 
-For plotting the results a sample plotting routine is provided in the repository. To install the dependencies please run the following command before executing the python script.
+* For building the executable for SFT model, run the following:
+
+```shell
+$ make
+```
+
+* For plotting the results a sample plotting routine is provided in the repository. To install the dependencies please run the following command before executing the python script.
 
 ```shell
 $ pip install -r requirements.txt
