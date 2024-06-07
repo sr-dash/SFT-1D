@@ -11,4 +11,6 @@ This project includes LaTeX documentation that you can access in PDF format.
 
 - [Download PDF](doc/usermanual.pdf)
 
+This is currently under developmet. 
+
 Feel free to explore the documentation, and if you have any questions or feedback, please [reach out](dashs@hawaii.edu).
