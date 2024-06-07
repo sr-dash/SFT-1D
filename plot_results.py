@@ -27,6 +27,11 @@ import glob
 import datetime
 from datetime import datetime as dt1
 from datetime import timedelta
+import f90nml
+
+# Read the parameter file to retrive the values
+nml = f90nml.read('initial_Parameters.nml')
+eta = nml['user']['eta']
 
 # Set the time range for the plot.
 # datetime(2010,6,17)+timedelta(days=14*365)
@@ -48,7 +53,7 @@ if not os.path.exists(PLOTPATH):
     os.makedirs(PLOTPATH)
 
 # Read the butterfly diagram file from the output directory.
-bfly1 = glob.glob(os.getcwd()+'/output_files/bfly_450_*.nc')[0]
+bfly1 = glob.glob(os.getcwd()+'/output_files/bfly_%3d_*.nc'%int(eta))[0]
 
 fh2 = netcdf_file(bfly1)
 bfly = fh2.variables['bfly'].data.copy()
@@ -74,7 +79,7 @@ ax1.axvline(x = frac_year('2023-09-04'), c='brown',ls='--',alpha=0.8)
 divider = make_axes_locatable(ax1)
 cax = divider.append_axes('right', size='5%', pad=0.15)
 fig.colorbar(pm, cax=cax, orientation='vertical',label='B$_r$ [G]')
-ax1.set_title('$\eta$ = 450 km$^2$/s, V0 = %2.1f m/s'%(np.max(v1[:,1])*L1*1E3))
+ax1.set_title('$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3))
 
 plt.savefig(PLOTPATH+'/bfly_all_bipoles_450_155.png',
             dpi=300,transparent=False,bbox_inches='tight')
@@ -120,10 +125,10 @@ ax.set_ylabel("Mean radial field strength [G]")
 ax.legend(loc = 3)
 fig.tight_layout()
 
-ax.text(0.02,0.93,'$\eta$ = 450 km$^2$/s, V0 = %2.1f m/s'%(np.max(v1[:,1])*L1*1E3)
+ax.text(0.02,0.93,'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3)
         ,color='brown',fontsize=10,transform=ax.transAxes)
 
-plt.savefig(PLOTPATH+'/polar_field_comparision_450_155.png',
+plt.savefig(PLOTPATH+'/polar_field_comparision_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
             dpi=300,transparent=False,bbox_inches='tight')
 # plt.show()
 
@@ -135,7 +140,7 @@ f2 = np.loadtxt(f1)
 
 plt.figure(figsize=[12,5])
 ax1 = plt.subplot(121)
-ax1.plot(time[:np.where(time >= frac_year('2023-09-04'))[0][0]],f2[:np.where(time >= frac_year('2023-09-04'))[0][0],1],label='$\eta$ = 450 km$^2$/s',c='k')
+ax1.plot(time[:np.where(time >= frac_year('2023-09-04'))[0][0]],f2[:np.where(time >= frac_year('2023-09-04'))[0][0],1],label='$\eta$ = %3d km$^2$/s'%(int(eta)),c='k')
 
 ax1.plot(time[np.where(time >= frac_year('2023-09-04'))[0][0]:-1],f2[np.where(time >= frac_year('2023-09-04'))[0][0]:,1],label='forward run',c='lightgreen')
 
@@ -153,7 +158,7 @@ ax2.set_xlim([-90,90])
 ax2.set_xlabel('Latitude (degrees)')
 ax2.set_ylabel('Flow speed [m/s]')
 ax2.grid()
-plt.savefig(PLOTPATH+'/DM_flows_450_155.png',
+plt.savefig(PLOTPATH+'/DM_flows_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
             dpi=300,transparent=False,bbox_inches='tight')
 # plt.show()
 
