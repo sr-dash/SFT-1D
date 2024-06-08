@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Surface Flux Transport 1D documentation
-===================================
+=======================================
 
 We can only observe half of the solar surface routinely. However, a global observation is
 essential for understanding and forecasting solar activity. Sun is magnetically active and this 
