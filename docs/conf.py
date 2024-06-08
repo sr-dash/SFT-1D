@@ -6,10 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Example'
-copyright = 'workshop participant'
-author = 'workshop participant'
-release = '0.1'
+project = 'SFT Simulation and Analysis'
+copyright = '2024, Soumyaranjan Dash'
+author = 'Soumyaranjan Dash'
 
 
 # -- General configuration ---------------------------------------------------
@@ -26,3 +25,5 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+html_logo = 'logosft.jpg'
+html_favicon = 'logosft.ico'
