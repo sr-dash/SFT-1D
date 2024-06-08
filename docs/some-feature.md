@@ -11,3 +11,9 @@ Let's make a list (empty surrounding lines required):
 
 - item 2
 - item 3
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   notebooks/plotting-results.ipynb
