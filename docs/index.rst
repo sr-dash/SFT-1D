@@ -11,14 +11,14 @@ essential for understanding and forecasting solar activity. Sun is magnetically 
 activity cycle lasts for about 11 years during which the magnetic field distribution on the solar
 surface -- the photosphere, evolves and generates a vast range of events e.g., emergece and 
 decay of sunspots, solar flares, coronal mass ejections, flow of solar wind and energetic particles
- into the heliosphere etc. In order to understand these we can use theoretical models to compute
- the global magnetic field configuration on the photosphere and later use them to drive different 
- models. Surface flux transport model solves the radial component of the magnetic induction equation 
- on the solar surface by using prescribed flow profiles and source terms. This distribution provides
- a numerical model of SFT developed in FORTRAN by folowing `Yeates (2020) <https://doi.org/10.1007/s11207-020-01688-y>`.
+into the heliosphere etc. In order to understand these we can use theoretical models to compute
+the global magnetic field configuration on the photosphere and later use them to drive different 
+models. Surface flux transport model solves the radial component of the magnetic induction equation 
+on the solar surface by using prescribed flow profiles and source terms. This distribution provides
+a numerical model of SFT developed in FORTRAN by folowing `Yeates (2020) <https://doi.org/10.1007/s11207-020-01688-y>'.
 
 Here is a short guide on how to build the code, install the dependencies and test the output results.
- 
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
