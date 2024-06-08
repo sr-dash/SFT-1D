@@ -1,7 +1,7 @@
 # Surface Flux Transport (SFT) 1D
 
 [![Build and Test](https://github.com/sr-dash/sft1d/actions/workflows/main.yml/badge.svg)](https://github.com/sr-dash/sft1d/actions/workflows/main.yml)
-[![Build LaTeX Documentation](https://github.com/sr-dash/sft1d/actions/workflows/build-docs.yml/badge.svg)](https://github.com/sr-dash/sft1d/actions/workflows/build-docs.yml) [![Sphinx Doc](https://github.com/sr-dash/SFT-1D/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/sr-dash/SFT-1D/actions/workflows/pages/pages-build-deployment)  [![HitCount](https://hits.dwyl.com/sr-dash/SFT-1D.svg?style=flat-square&show=unique)](http://hits.dwyl.com/sr-dash/SFT-1D)
+[![Build LaTeX Documentation](https://github.com/sr-dash/sft1d/actions/workflows/build-docs.yml/badge.svg)](https://github.com/sr-dash/sft1d/actions/workflows/build-docs.yml) [![Sphinx Doc](https://github.com/sr-dash/SFT-1D/actions/workflows/documentation.yml/badge.svg)](https://github.com/sr-dash/SFT-1D/actions/workflows/documentation.yml)  [![HitCount](https://hits.dwyl.com/sr-dash/SFT-1D.svg?style=flat-square&show=unique)](http://hits.dwyl.com/sr-dash/SFT-1D)
 
 
 
