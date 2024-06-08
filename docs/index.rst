@@ -15,7 +15,7 @@ into the heliosphere etc. In order to understand these we can use theoretical mo
 the global magnetic field configuration on the photosphere and later use them to drive different 
 models. Surface flux transport model solves the radial component of the magnetic induction equation 
 on the solar surface by using prescribed flow profiles and source terms. This distribution provides
-a numerical model of SFT developed in FORTRAN by folowing `Yeates (2020) <https://doi.org/10.1007/s11207-020-01688-y>'.
+a numerical model of SFT developed in FORTRAN by folowing `Yeates (2020) <https://doi.org/10.1007/s11207-020-01688-y>`_.
 
 Here is a short guide on how to build the code, install the dependencies and test the output results.
 
