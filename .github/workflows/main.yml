@@ -2,8 +2,8 @@ name: Build and Test
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - 'src/**'
 
 jobs:
   build:
