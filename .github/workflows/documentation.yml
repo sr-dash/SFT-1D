@@ -14,6 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
+      - name: Install pandoc
+        run: apt-get update && apt-get install -y pandoc
       - name: Install dependencies
         run: |
           pip install sphinx sphinx_rtd_theme myst_parser nbsphinx
