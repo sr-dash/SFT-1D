@@ -1,4 +1,4 @@
-# Some feature
+# Installing SFT1D
 
 ## Subsection
 
