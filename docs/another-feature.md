@@ -1,6 +1,6 @@
 # Plotting the results
 
-notebooks/plotting-results
+
 
 ## Some text
 

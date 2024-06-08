@@ -25,3 +25,4 @@ Here is a short guide on how to build the code, install the dependencies and tes
 
    some-feature.md
    another-feature.md
+   notebooks/plotting-results.ipynb
