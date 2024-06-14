@@ -39,4 +39,6 @@ where the north-south velocity is, {math}`v_s(s) = D_us(1-s^2)^{p/2}.` In
 this form the velocity, {math}`s` = sin{math}`\theta` and {math}`D_u` controls the
 amplitude of the function.
 
-![Meridional flow profile](MC_flow250.png "Example meridional flow profile."){width=40%}
+<img src="MC_flow250.png" width="50%">
+
+[comment]: # ![Meridional flow profile](MC_flow250.png "Example meridional flow profile."){width=40%}
