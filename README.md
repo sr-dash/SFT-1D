@@ -9,11 +9,9 @@ Surface Flux Transport modeling in one dimension (latitude).
 
 ## Documentation
 
-This project includes LaTeX documentation that you can access in PDF format.
+A general introcuction to the model and preliminary documentation can be found [here](https://sr-dash.github.io/SFT-1D/). 
 
-- [Download PDF](doc/usermanual.pdf)
-
-This is currently under developmet. 
+These pages are currently under development. 
 
 For ease of installing the dependecies, supporting packages and building the executable please follow the steps mentioned below. 
 
