@@ -19,7 +19,7 @@ a^2 + b^2 = c^2
 
 
 ```{math}
-\frac{\partial B}{\partial t} = \frac{D}{R_\odot^2}
+\frac{\partial B}{\partial t} = \frac{D}{R_\odot^2}\left[\frac{\partial}{\partial s}\left((1-s^2)\frac{\partial B}{\partial s}\right) + \frac{1}{1-s^2}\frac{\partial^2B}{\partial\phi^2}\right]
 ```
 
 
