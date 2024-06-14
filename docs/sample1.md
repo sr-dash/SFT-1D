@@ -14,7 +14,6 @@ magnetic field on the photosphere. The governing equation can be written
 as,
 
 ```{math}
-:label: sft2d
 \frac{\partial B}{\partial t} = \frac{D}{R_\odot^2}\left[\frac{\partial}{\partial s}\left((1-s^2)\frac{\partial B}{\partial s}\right) + \frac{1}{1-s^2}\frac{\partial^2B}{\partial\phi^2}\right] - \frac{\partial}{\partial s}\left[\frac{v_s(s)}{R_\odot}\sqrt{1-s^2} B\right] - \Omega(s)\frac{\partial B}{\partial\phi}
 ```
 
@@ -28,6 +27,7 @@ average in the longitudinal direction which will improve the
 computational efficiency and provide us a lesser parameter space to
 comprehensively explore the dynamics. After averaging the {math}`B_r`,
 ```{math}
+:label: sft2d
 \overline{B}(s,t)=(2\pi)^{-1}\int_0^{2\pi}B(s,\phi,t)\,\mathrm{d}\phi.
 ```
 Using this reduced form of {math}`B_r`, we can re-write
