@@ -1,6 +1,7 @@
 ---
 bibliography:
 - assets/references.bib
+title: Surface Flux Transport Model User Manual
 ---
 
 # The Basics []{#chapter:basics label="chapter:basics"}
