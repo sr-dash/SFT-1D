@@ -34,8 +34,6 @@ requirements apply.
 -   The file writing subroutine use netCDF output. For these the
     serial/parallel version of the netCDF library has to be installed.
 
--   In order to generate the documentation, LaTex has to be installed.
-
 As the code solves the magnetic field evolution in only one dimension,
 it does not need huge computing power or higher memory load. It can run
 on a single processor with a nominal RAM memory.
@@ -51,7 +49,7 @@ The distribution in the form of the compressed tar image includes the
 SFT source code. The top level directory contains the following
 subdirectories:
 
--   `doc` - the documentation directory
+-   `docs` - the documentation directory
 
 -   `bipole_file` - the bipole properties to generate the source terms
     for the model
