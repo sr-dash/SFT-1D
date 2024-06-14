@@ -15,6 +15,7 @@ as,
 
 ```{math}
 \frac{\partial B}{\partial t} = \frac{D}{R_\odot^2}\left[\frac{\partial}{\partial s}\left((1-s^2)\frac{\partial B}{\partial s}\right) + \frac{1}{1-s^2}\frac{\partial^2B}{\partial\phi^2}\right] - \frac{\partial}{\partial s}\left[\frac{v_s(s)}{R_\odot}\sqrt{1-s^2} B\right] - \Omega(s)\frac{\partial B}{\partial\phi}
+:label: sft2d
 ```
 
 where {math}`s` = sin{math}`\theta`, D is the magnetic diffusivity, {math}`\Omega (s)`
@@ -30,8 +31,7 @@ comprehensively explore the dynamics. After averaging the {math}`B_r`,
 \overline{B}(s,t)=(2\pi)^{-1}\int_0^{2\pi}B(s,\phi,t)\,\mathrm{d}\phi.
 ```
 Using this reduced form of {math}`B_r`, we can re-write
-equation-[\[eqn:sft2d\]](#eqn:sft2d){reference-type="ref"
-reference="eqn:sft2d"} as,
+equation-:eq:`sft2d` as,
 ```{math}
 \frac{\partial\overline{B}}{\partial t} = \frac{\partial}{\partial s}\left[\frac{D}{R_\odot^2}(1-s^2)\frac{\partial\overline{B}}{\partial s} - \frac{v_s(s)}{R_\odot}\sqrt{1-s^2}\overline{B}\right],
 ```
