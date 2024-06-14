@@ -17,16 +17,19 @@ models. Surface flux transport model solves the radial component of the magnetic
 on the solar surface by using prescribed flow profiles and source terms. This distribution provides
 a numerical model of SFT developed in FORTRAN by folowing `Yeates (2020) <https://doi.org/10.1007/s11207-020-01688-y>`_.
 
-Link to the GitHub repository: `https://sr-dash.github.io/SFT-1D/ <https://sr-dash.github.io/SFT-1D/>`_
-Here is a short guide on how to build the code, install the dependencies and test the output results.
+Link to the GitHub repository: `https://sr-dash.github.io/SFT-1D/ <https://sr-dash.github.io/SFT-1D/>`_.
+
+Link to the resources used in `Yeates (2020) <https://doi.org/10.1007/s11207-020-01688-y>`_: `sharps-bmrs <https://github.com/antyeates1983/sharps-bmrs>`_.
+
+Here is a short guide on how to build the SFT 1D code, install the dependencies and check the output.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   sample0.md
+   quickstart.md
    notebooks/plotting-results.ipynb
-   sample1.md
+   sft-theory.md
 
 ..
    some-feature.md
