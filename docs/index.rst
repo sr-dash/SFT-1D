@@ -24,7 +24,7 @@ Here is a short guide on how to build the code, install the dependencies and tes
    :caption: Contents:
 
    notebooks/plotting-results.ipynb
-   sample_back.rst
+   sample1.md
 
 ..
    some-feature.md
