@@ -22,6 +22,7 @@ Here is a short guide on how to build the code, install the dependencies and tes
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   
    sample0.md
    notebooks/plotting-results.ipynb
    sample1.md
