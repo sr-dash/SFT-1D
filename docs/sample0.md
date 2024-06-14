@@ -16,10 +16,10 @@ executable which can be compiled with netCDF libraries and run on any
 computer as long as the GNU compiler and netCDF libraries are properly
 installed.
 
-## Acknowledgments {#acknowledgments .unnumbered}
+## Acknowledgments
 
-This numerical implementation of the model follows @Yeates2020SoPh. The
-first version of the SWMF was developed at the Institute for Astronomy
+This numerical implementation of the model follows [Yeates (2020)](https://doi.org/10.1007/s11207-020-01688-y). The
+first version of the SFT1D was developed at the Institute for Astronomy
 (IFA) of the University of Hawaii.
 
 ## System Requirements
