@@ -18,9 +18,7 @@ installed.
 
 ## Acknowledgments
 
-This numerical implementation of the model follows [Yeates (2020)](https://doi.org/10.1007/s11207-020-01688-y). The
-first version of the SFT1D was developed at the Institute for Astronomy
-(IFA) of the University of Hawaii.
+Original code was developed by [Yeates (2020)](https://doi.org/10.1007/s11207-020-01688-y) in Python. This distribution is a reproduction in FORTRAN.
 
 ## System Requirements
 
