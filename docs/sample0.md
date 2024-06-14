@@ -1,4 +1,4 @@
-# Introduction
+# Quick Start
 
 This document describes a working prototype of the Surface Flux
 Transport model (SFT). The SFT was developed to provide a computationaly
@@ -46,8 +46,6 @@ In addition to the above requirements, the SFT output is typically
 visualized using Python. Other visualization packages may also be used,
 but the output file formats should be suported by those visualization
 softwares.
-
-# Quick Start
 
 ## A Brief Description of the SFT 1D code
 
