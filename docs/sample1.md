@@ -28,10 +28,9 @@ computational efficiency and provide us a lesser parameter space to
 comprehensively explore the dynamics. After averaging the {math}`B_r`,
 ```{math}
 \overline{B}(s,t)=(2\pi)^{-1}\int_0^{2\pi}B(s,\phi,t)\,\mathrm{d}\phi.
-:label: sft2d
 ```
-Using this reduced form of {math}`B_r`, we can re-write
-equation-{eq}`sft2d` as,
+Using this reduced form of {math}`B_r`, we can re-write the 
+equation as,
 ```{math}
 \frac{\partial\overline{B}}{\partial t} = \frac{\partial}{\partial s}\left[\frac{D}{R_\odot^2}(1-s^2)\frac{\partial\overline{B}}{\partial s} - \frac{v_s(s)}{R_\odot}\sqrt{1-s^2}\overline{B}\right],
 ```
