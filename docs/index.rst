@@ -23,9 +23,11 @@ Here is a short guide on how to build the code, install the dependencies and tes
    :maxdepth: 2
    :caption: Contents:
 
+   notebooks/plotting-results.ipynb
+   SFT_basics.md
+
+..
    some-feature.md
    another-feature.md
    sample0.md
    sample1.md
-   notebooks/plotting-results.ipynb
-   SFT_basics.md
