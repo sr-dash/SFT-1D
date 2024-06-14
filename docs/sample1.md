@@ -4,7 +4,8 @@ bibliography:
 title: Surface Flux Transport Model User Manual
 ---
 
-# The Basics 
+# Theoretical background
+ 
 ## Magnetic field evolution on the solar surface
 
 The surface flux transport (SFT) model, which solves the radial
