@@ -49,27 +49,22 @@ Example meridional flow profile.
 
 ## BMR modeling algorithm
 
-We introduce a source function to model the approximating bipolar
-magnetic region (BMR) for an observed SHARP. The location of the center
-of the BMR we use the locations of the positive and negative polarity
-positions {math}`(s_+, \phi_+)` and {math}`(s_-,\phi_-)` on the computational grid.
-Here $s$ denotes sine-latitude and $\phi$ denotes (Carrington)
-longitude. We compute,
+We follow the Bipolar Magnetic Region (BMR) modeling algorithm described in [Yeates (2020)](https://doi.org/10.1007/s11207-020-01688-y) to incorporate BMRs in SFT model using observed SHARP parameters. The location of the is modelled with the positive and negative polarity positions {math}`(s_+, \phi_+)` and {math}`(s_-,\phi_-)` on the computational grid. Here {math}`s` denotes sine-latitude and {math}`\phi` denotes (Carrington) longitude. Different properties of the source functions are modeles as following,
 
-1. centroid of the BMR,\
-\
+1. Centroid of the BMR,\
+
 ```{math}
     s_0 = \frac12(s_+ + s_-),\qquad \phi_0 = \frac12(\phi_+ + \phi_-)
     \label{eqn:center}
 ``` 
-2. polarity separation, which is the heliographic angle,\
-\
+2. Polarity separation, which is the heliographic angle,\
+
 ```{math}
     \rho = \arccos\left[s_+s_- + \sqrt{1-s_+^2}\sqrt{1 - s_-^2}\cos(\phi_+-\phi_-) \right]
     \label{eqn:separation}
 ```
-3. the tilt angle with respect to the equator, given by,\
-\
+3. The tilt angle with respect to the equator, given by,\
+
 ```{math}
     \gamma = \arctan\left[\frac{\arcsin(s_+) - \arcsin(s_-)}{\sqrt{1-s_0^2}(\phi_- - \phi_+)}\right]
     \label{eqn:tilt}
