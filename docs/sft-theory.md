@@ -21,7 +21,7 @@ as,
 where {math}`s` = sin{math}`\theta`, D is the magnetic diffusivity, {math}`\Omega (s)`
 is the angular velocity in east-west direction on a sine-latitude grid,
 {math}`v_s (s)` is the flow profile along north-south direction on a
-sine-latitude grid and $\phi$ is the longitude. As the velocity profiles
+sine-latitude grid and {math}`\phi` is the longitude. As the velocity profiles
 involved in transporting the magnetic flux on the photosphere is a
 function of latitude only, we can simplify this equation by taking
 average in the longitudinal direction which will improve the
@@ -52,30 +52,27 @@ Example meridional flow profile.
 We introduce a source function to model the approximating bipolar
 magnetic region (BMR) for an observed SHARP. The location of the center
 of the BMR we use the locations of the positive and negative polarity
-positions $(s_+, \phi_+)$ and $(s_-,\phi_-)$ on the computational grid.
+positions {math}`(s_+, \phi_+)` and {math}`(s_-,\phi_-)` on the computational grid.
 Here $s$ denotes sine-latitude and $\phi$ denotes (Carrington)
 longitude. We compute,
 
 ::: itemize
 centroid of the BMR,\
 \
-```{math}
+`{math}
     s_0 = \frac12(s_+ + s_-),\qquad \phi_0 = \frac12(\phi_+ + \phi_-)
     \label{eqn:center}
-    
-``` 
+` 
 polarity separation, which is the heliographic angle,\
 \
-```{math}
+`{math}
     \rho = \arccos\left[s_+s_- + \sqrt{1-s_+^2}\sqrt{1 - s_-^2}\cos(\phi_+-\phi_-) \right]
     \label{eqn:separation}
-    
-``` 
+`
 the tilt angle with respect to the equator, given by,\
 \
-```{math}
+`{math}
     \gamma = \arctan\left[\frac{\arcsin(s_+) - \arcsin(s_-)}{\sqrt{1-s_0^2}(\phi_- - \phi_+)}\right]
     \label{eqn:tilt}
-    
-```
+`
 :::
