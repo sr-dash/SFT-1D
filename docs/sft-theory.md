@@ -40,8 +40,42 @@ this form the velocity, {math}`s` = sin{math}`\theta` and {math}`D_u` controls t
 amplitude of the function.
 
 ```{figure} MC_flow.png
-:scale: 50 %
+:scale: 80 %
+:align: "center"
 :alt: Meridional flow profile
 
 Example meridional flow profile.
 ```
+
+## BMR modeling algorithm
+
+We introduce a source function to model the approximating bipolar
+magnetic region (BMR) for an observed SHARP. The location of the center
+of the BMR we use the locations of the positive and negative polarity
+positions $(s_+, \phi_+)$ and $(s_-,\phi_-)$ on the computational grid.
+Here $s$ denotes sine-latitude and $\phi$ denotes (Carrington)
+longitude. We compute,
+
+::: itemize
+centroid of the BMR,\
+\
+```{math}
+    s_0 = \frac12(s_+ + s_-),\qquad \phi_0 = \frac12(\phi_+ + \phi_-)
+    \label{eqn:center}
+    
+``` 
+polarity separation, which is the heliographic angle,\
+\
+```{math}
+    \rho = \arccos\left[s_+s_- + \sqrt{1-s_+^2}\sqrt{1 - s_-^2}\cos(\phi_+-\phi_-) \right]
+    \label{eqn:separation}
+    
+``` 
+the tilt angle with respect to the equator, given by,\
+\
+```{math}
+    \gamma = \arctan\left[\frac{\arcsin(s_+) - \arcsin(s_-)}{\sqrt{1-s_0^2}(\phi_- - \phi_+)}\right]
+    \label{eqn:tilt}
+    
+```
+:::
