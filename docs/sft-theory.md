@@ -71,7 +71,7 @@ We follow the Bipolar Magnetic Region (BMR) modeling algorithm described in [Yea
 ```
 
 Together with the unsigned flux, {math}`|\Phi|`, these parameters define the
-BMR for our chosen functional form. For an untilted BMR centered at
+BMR as following. For an untilted BMR centered at
 {math}`s=\phi=0`, this functional form is defined as
 ```{math}
     B(s,\phi) = F(s,\phi) = -B_0\frac{\phi}{\rho}\exp\left[-\frac{\phi^2 + 2\arcsin^2(s)}{(a\rho)^2}\right],
@@ -83,3 +83,11 @@ account for the location {math}`(s_0,\phi_0)` and tilt {math}`\gamma` of a gener
 region, we set {math}`B(s,\phi) = F(s',\phi')`, where {math}`(s',\phi')` are
 spherical coordinates in a frame where the region is centered at
 {math}`s'=\phi'=0` and untilted.
+
+```{figure} example_bmr.png
+:scale: 80 %
+:align: "center"
+:alt: example modeled BMR
+
+Example modeled BMR.
+```
