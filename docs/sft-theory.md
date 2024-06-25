@@ -40,7 +40,8 @@ this form the velocity, {math}`s` = sin{math}`\theta` and {math}`D_u` controls t
 amplitude of the function.
 
 ```{figure} MC_flow.png
-:scale: 80 %
+:height: 70 %
+:width: 70 %
 :align: "center"
 :alt: Meridional flow profile
 
@@ -85,7 +86,8 @@ spherical coordinates in a frame where the region is centered at
 {math}`s'=\phi'=0` and untilted.
 
 ```{figure} example_bmr.png
-:scale: 80 %
+:height: 70 %
+:width: 70 %
 :align: "center"
 :alt: example modeled BMR
 
