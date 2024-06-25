@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Start &mdash; SFT Simulation and Analysis  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+    <link rel="shortcut icon" href="_static/logosft.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sample plotting routine for SFT 1D" href="notebooks/plotting-results.html" />
+    <link rel="prev" title="Surface Flux Transport 1D documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SFT Simulation and Analysis
+              <img src="_static/logosft.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#acknowledgments">Acknowledgments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#system-requirements">System Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-brief-description-of-the-sft-1d-code">A Brief Description of the SFT 1D code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general-hints">General Hints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#getting-help-with-the-makefile">Getting help with the Makefile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compiling-the-code">Compiling the code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-code">Running the code</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/plotting-results.html">Sample plotting routine for SFT 1D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sft-theory.html">Theoretical background</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SFT Simulation and Analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quick Start</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h1>
+<p>This document describes a working prototype of the Surface Flux
+Transport model (SFT). The SFT was developed to provide a computationaly
+inexpensive solver to explore the parameter space to better understand
+the evolution of solar surface magnetic field evolution in response to
+the changes in source functions and transport parameters. In its current
+form the SFT is numerically stable and provides a user-friendly test-bed
+to understand how the properties of sunspots, advection profiles and
+diffusivity impact the global solar surface magnetic field evolution.</p>
+<p>The core of the SFT are written in Fortran 90. As the equations are
+simplified to evolve in one dimensions, presently the code does not
+implement parallel communications libraries. The SFT creates a single
+executable which can be compiled with netCDF libraries and run on any
+computer as long as the GNU compiler and netCDF libraries are properly
+installed.</p>
+<section id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Link to this heading"></a></h2>
+<p>Original code was developed by <a class="reference external" href="https://doi.org/10.1007/s11207-020-01688-y">Yeates (2020)</a> in Python. This distribution is a reproduction in FORTRAN.</p>
+</section>
+<section id="system-requirements">
+<h2>System Requirements<a class="headerlink" href="#system-requirements" title="Link to this heading"></a></h2>
+<p>In order to install and run the SFT 1D the following minimum system
+requirements apply.</p>
+<ul class="simple">
+<li><p>The SFT runs only under the UNIX/Linux operating systems. This now
+includes Macintosh system 10.x because it is based on BSD UNIX. It
+does not run under any Microsoft Windows operating system.</p></li>
+<li><p>A GNU FORTRAN compiler must be installed.</p></li>
+<li><p>The file writing subroutine use netCDF output. For these the
+serial/parallel version of the netCDF library has to be installed.</p></li>
+</ul>
+<p>As the code solves the magnetic field evolution in only one dimension,
+it does not need huge computing power or higher memory load. It can run
+on a single processor with a nominal RAM memory.</p>
+<p>In addition to the above requirements, the SFT output is typically
+visualized using Python. Other visualization packages may also be used,
+but the output file formats should be suported by those visualization
+softwares.</p>
+</section>
+<section id="a-brief-description-of-the-sft-1d-code">
+<h2>A Brief Description of the SFT 1D code<a class="headerlink" href="#a-brief-description-of-the-sft-1d-code" title="Link to this heading"></a></h2>
+<p>The distribution in the form of the compressed tar image includes the
+SFT source code. The top level directory contains the following
+subdirectories:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">docs</span></code> - the documentation directory</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bipole_file</span></code> - the bipole properties to generate the source terms
+for the model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input_files</span></code> - initial magnetic field configuration for the SFT
+code, typically a synoptic magnetogram interpolated into the
+targeted sine-latitude – longitude grid</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code> - all the fortran routines for building the executable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plots</span></code> - some example plots of a standard run</p></li>
+</ul>
+<p>and the following files</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">initial_Parameters.nml</span></code> - user input of the initial parameter
+values for the variables</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Makefile</span></code> - the main makefile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">makefile.git</span></code> - makefile to build and test the code on github with
+continous integration (CI)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hmi_polar_field.p</span></code> - pickle file contaiing HMI observed polar field
+obtained from JSOC webpage</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">install_netcdf.sh</span></code> - shell script to download and install necessary
+netCDF libraries on a linux system</p></li>
+</ul>
+<p>There are eight fortran files in the <code class="docutils literal notranslate"><span class="pre">src</span></code> directory which cotains the
+source code.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">evolSFT.f90</span></code> - a short instruction on installation and usage</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flows.f90</span></code> - the analytical form of the flow profile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gridSFT.f90</span></code> - to construct the grid of the solver</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">init_condition.f90</span></code> - code to set-up the initial conditions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output.f90</span></code> - subroutine to write the files in ASCII format</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main.f90</span></code> - the main code</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">variables.f90</span></code> - definition of the variables to be used in the code</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">write_data.f90</span></code> - code to write the output data in netCDF format.</p></li>
+</ul>
+</section>
+<section id="general-hints">
+<h2>General Hints<a class="headerlink" href="#general-hints" title="Link to this heading"></a></h2>
+<section id="getting-help-with-the-makefile">
+<h3>Getting help with the Makefile<a class="headerlink" href="#getting-help-with-the-makefile" title="Link to this heading"></a></h3>
+<p>You can find all the possible targets that can be built by typing</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make help
+</pre></div>
+</div>
+</section>
+<section id="compiling-the-code">
+<h3>Compiling the code<a class="headerlink" href="#compiling-the-code" title="Link to this heading"></a></h3>
+<p>Before going to compile the code it is essential to modify a few things
+in the <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>. Currently, the fortran compiler and the paths of the
+netCDF libraries are set to this path.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Set FORTRAN90 compiler
+FC = gfortran
+
+# Location of files for netcdf library
+NETCDF = -I/usr/local/netcdf/include/
+NETCDFLIB = -L/usr/local/netcdf/lib/ -lnetcdff
+</pre></div>
+</div>
+<p>You need to change the paths and the compiler options according to your
+system. Once this is correctly specified, compile the code by typing
+<code class="docutils literal notranslate"><span class="pre">make</span></code>. This will create two additional sub-directories; <code class="docutils literal notranslate"><span class="pre">bin,</span> <span class="pre">obj</span></code>. The
+executable <code class="docutils literal notranslate"><span class="pre">SFT_1D</span></code> will be created in the bin directory by compiling
+codes from <code class="docutils literal notranslate"><span class="pre">src</span></code> directory, if there are no errors in the compilation
+process.</p>
+</section>
+<section id="running-the-code">
+<h3>Running the code<a class="headerlink" href="#running-the-code" title="Link to this heading"></a></h3>
+<p>Surface flux transport model requires two major input from the user.
+First being the meridional flow profile and magnetic diffusivity
+($\eta$). And the second being the source functions i.e., bipole
+properties which are added to the evolution at the time when they appear
+on the solar photosphere.</p>
+<ul class="simple">
+<li><p>Bipolar Magnetic Region (BMRs) properties are pre-written to an
+ASCII file and saved in <code class="docutils literal notranslate"><span class="pre">bipole_file/all_bmrs.txt</span></code>.</p></li>
+<li><p>Meridional flow profile is defined in the subroutine <code class="docutils literal notranslate"><span class="pre">MC_flow</span></code>
+contained in <code class="docutils literal notranslate"><span class="pre">flows.f90</span></code> file.</p></li>
+<li><p>Magnetic diffusivity ($\eta$) is defined in units of km$^2$/s in the
+<code class="docutils literal notranslate"><span class="pre">initial_Parameters.nml</span></code> file.</p></li>
+</ul>
+<p>These parameters are passed to the code using a <code class="docutils literal notranslate"><span class="pre">namelist</span></code> file
+<code class="docutils literal notranslate"><span class="pre">initial_Parameters.nml</span></code>. This will create the necessary subdirectories
+for saving the output and execute the code based on the selected
+parameters. After compiling the code, type</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;./bin/SFT\_1D initial\_Parameters.nml
+</pre></div>
+</div>
+<p>to run the simulation.</p>
+<p>There is a sample plotting file (<code class="docutils literal notranslate"><span class="pre">plot_results.py</span></code>) is also distributed
+with this version of the code along with some supporting files. If all
+the necessary python packages are available, this script will generate
+the butterfly diagram, comparative plot between the HMI polar field and
+the SFT polar field and the dipole moment. With the current set of
+initial conditions, the example of these plots are provided with this
+version of the code.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Surface Flux Transport 1D documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="notebooks/plotting-results.html" class="btn btn-neutral float-right" title="Sample plotting routine for SFT 1D" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Soumyaranjan Dash.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
