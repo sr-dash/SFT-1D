@@ -12,6 +12,8 @@ Surface Flux Transport modeling in one dimension (latitude).
 
 A general introcuction to the model and preliminary documentation can be found [here](https://sr-dash.github.io/SFT-1D/). 
 
+The input dataset can be downloaded from Zenodo at [https://zenodo.org/records/13830728](https://zenodo.org/records/13830728).
+
 These pages are currently under development. 
 
 For ease of installing the dependecies, supporting packages and building the executable please follow the steps mentioned below. 
