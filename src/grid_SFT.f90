@@ -37,7 +37,7 @@ CONTAINS
  
 
  NAMELIST /user/ dataDir, input_files, nthUnif, nphUnif,  &
-                 L, eta, tau, stopDay, C, total_bipoles, bipolefile, &
+                 L, eta, tau, stopDay, C, peak_lat, total_bipoles, bipolefile, &
                  savesources,ADDBIPOLES,writefluximbalance, &
                  mc1,saverestart,restartfreq,restartDir, &
                  restart, restartDay, stop_res

@@ -36,7 +36,7 @@ MODULE variables
  REAL(dp), PARAMETER :: pi = 3.14159265358979323_dp
  REAL(dp), PARAMETER :: dtor = pi/180.0_dp
 !REAL(dp), PARAMETER :: rtod = 180.0_dp/pi
- REAL(dp) :: C,P,du,C1
+ REAL(dp) :: C,P,du,C1, peak_lat
  REAL(dp), ALLOCATABLE :: br_1D(:),time_var(:)
  REAL(dp), ALLOCATABLE :: FV_flx(:)
  REAL(dp), ALLOCATABLE :: br_2D(:,:), brb(:,:),bfly(:,:)

@@ -12,6 +12,7 @@
 	stopDay = 5111,
 !--Meridional flow parameters:
 C = 30.7,
+peak_lat = 31.4,
 !--Bipole file location:
 	total_bipoles = 1643,
 	bipolefile = "bipole_file/all_bmrs.txt",

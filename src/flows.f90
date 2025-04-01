@@ -41,4 +41,20 @@ CONTAINS
  
  END SUBROUTINE MC_flow
 
+ !****************************************************************
+ SUBROUTINE MC_flow_v2(C,peak_lat, sg, MC_vel)
+ ! This populates the meridional circulation variable 
+ ! C is the peak flow speed from the user namelist file.
+ ! peak_lat is the peak latitude of the meridional flow profile in degrees.
+ ! with prescribed profile for the flow speed.
+ REAL(dp), INTENT(in) :: C, sg(0:nthUnif-2)
+ REAL(dp) :: P, du, peak_lat
+ REAL(dp), INTENT(out) :: MC_vel(0:nthUnif-2)
+
+ P = (1.0_dp/(DSIN(peak_lat*PI/180.0_dp)**2)) - 1.0_dp
+ du = C*(1E-3)*((1.0_dp+P)**(0.5_dp*(P+1)))/(P**(P*0.5_dp))
+ MC_vel = du*sg*(SQRT(1.0_dp - sg**2))**(P)
+ 
+ END SUBROUTINE MC_flow_v2
+
 END MODULE flows

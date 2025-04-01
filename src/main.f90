@@ -88,8 +88,8 @@ ALLOCATE(brb(0:nthUnif-1,0:nphUnif-1))
    IF (restart) THEN
       CALL MC_flow(C1,sg,MC_vel)
    ELSE
-      
-      CALL MC_flow(C,sg,MC_vel)
+      !CALL MC_flow(C,sg,MC_vel)
+      CALL MC_flow_v2(C,peak_lat,sg,MC_vel)
    END IF
  END IF
 
