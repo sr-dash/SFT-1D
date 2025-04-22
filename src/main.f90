@@ -94,7 +94,7 @@ ALLOCATE(brb(0:nthUnif-1,0:nphUnif-1))
  END IF
 
  IF (mc1) THEN
- WRITE (snap3, FMT='(i5.3)') nint(MAXVAL(MC_vel*10))
+ WRITE (snap3, FMT='(i5.3)') nint(C*10)
  snap3 = ADJUSTL(snap3)
  END IF
  
