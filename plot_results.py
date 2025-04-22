@@ -32,6 +32,7 @@ import f90nml
 # Read the parameter file to retrive the values
 nml = f90nml.read('initial_Parameters.nml')
 eta = nml['user']['eta']
+peak_lat = nml['user']['peak_lat']
 
 # Set the time range for the plot.
 # datetime(2010,6,17)+timedelta(days=14*365)
@@ -62,14 +63,21 @@ time = fh2.variables['time'].data.copy()
 
 fh2.close()
 
+# Read HMI butterfly diagram data from the file.
+picklefile_hmi_bfly = open('./hmi_bfly.p','rb')
+bflyhmi = pickle.load(picklefile_hmi_bfly)
+timearr = pickle.load(picklefile_hmi_bfly)
+latbfly = pickle.load(picklefile_hmi_bfly)
+picklefile_hmi_bfly.close()
+
 # Plot the butterfly diagram for the SFT simulation output
-fig = plt.figure(figsize=[12,5])
-ax1 = plt.subplot(111)
+fig = plt.figure(figsize=[12,9])
+ax1 = plt.subplot(211)
 
 vel = glob.glob(os.getcwd()+'/output_files/MC_vel*.dat')[0]
 v1 = np.loadtxt(vel)
 L1 = 6.96e5
-print('%2.1f'%(np.max(v1[:,1])*L1*1E3))
+# print('%2.1f'%(np.max(v1[:,1])*L1*1E3))
 pm = ax1.pcolormesh(time,np.rad2deg(np.arcsin(sth)),bfly,cmap='bwr',vmax=10,vmin=-10)
 ax1.set_xlim([time[0],time[-1]])  
 # ax1.set_xlim([-90,90])
@@ -80,8 +88,21 @@ divider = make_axes_locatable(ax1)
 cax = divider.append_axes('right', size='5%', pad=0.15)
 fig.colorbar(pm, cax=cax, orientation='vertical',label='B$_r$ [G]')
 ax1.set_title('$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3))
+ax1.text(0.01,0.95,'SFT B$_r$ butterfly diagram',transform=ax1.transAxes,
+        fontsize=10,color='brown')
 
-plt.savefig(PLOTPATH+'/bfly_all_bipoles_450_155.png',
+ax2 = plt.subplot(212)
+im2 = ax2.pcolormesh(timearr,np.rad2deg(np.arcsin(latbfly)),bflyhmi,cmap='bwr',vmax=10,vmin=-10)
+ax2.set_xlim([time[0],time[-1]])
+ax2.set_xlabel('Years')
+ax2.set_ylabel('Latitude (degrees)')
+divider = make_axes_locatable(ax2)
+cax = divider.append_axes('right', size='5%', pad=0.15)
+fig.colorbar(im2, cax=cax, orientation='vertical',label='B$_r$ [G]')
+ax2.text(0.01,0.95,'HMI B$_r$ butterfly diagram',transform=ax2.transAxes,
+        fontsize=10,color='brown')
+
+plt.savefig(PLOTPATH+'/bfly_all_bipoles_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
             dpi=300,transparent=False,bbox_inches='tight')
 # plt.show()
 
@@ -123,6 +144,8 @@ ax.set_title('HMI Polar field and SFT Polar field', fontsize="large")
 ax.set_xlabel("Time")
 ax.set_ylabel("Mean radial field strength [G]")
 ax.legend(loc = 3)
+ax.minorticks_on()
+ax.grid()
 fig.tight_layout()
 
 ax.text(0.02,0.93,'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3)
@@ -147,16 +170,22 @@ ax1.plot(time[np.where(time >= frac_year('2023-09-04'))[0][0]:-1],f2[np.where(ti
 # ax1.set_xlim([time[0],frac_year('2023-09-04')])
 ax1.set_xlabel('Years')
 ax1.set_ylabel('Axial dipole moment [G]')
+ax1.minorticks_on()
+ax1.grid()
 ax1.legend()
 
 ax2 = plt.subplot(122)
 vel = glob.glob(os.getcwd()+'/output_files/MC_vel*.dat')[0]
 v1 = np.loadtxt(vel)
-ax2.plot(np.rad2deg(np.arcsin(v1[:,0])),v1[:,1]*L1*1E3,label='20',c='r')
+ax2.plot(np.rad2deg(np.arcsin(v1[:,0])),v1[:,1]*L1*1E3,label=f'Peak flow amplitude {np.max(v1[:,1]*L1*1E3):2.2f} m/s',c='r')
+ax2.axvline(x=-peak_lat, c='brown',ls='--',alpha=0.8,label=f'Peak latitude: {peak_lat} degrees')
+ax2.axvline(x=peak_lat, c='brown',ls='--',alpha=0.8,label=None)
 
 ax2.set_xlim([-90,90])
 ax2.set_xlabel('Latitude (degrees)')
 ax2.set_ylabel('Flow speed [m/s]')
+ax2.minorticks_on()
+ax2.legend(fontsize=8)
 ax2.grid()
 plt.savefig(PLOTPATH+'/DM_flows_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
             dpi=300,transparent=False,bbox_inches='tight')
