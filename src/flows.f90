@@ -51,7 +51,7 @@ CONTAINS
  REAL(dp) :: P, du, peak_lat
  REAL(dp), INTENT(out) :: MC_vel(0:nthUnif-2)
 
- P = (1.0_dp/(peak_lat*PI/180.0_dp)**2) - 1.0_dp
+ P = (1.0_dp/(DSIN(peak_lat*PI/180.0_dp))**2) - 1.0_dp
  du = C*(1E-3)*((1.0_dp+P)**(0.5_dp*(P+1)))/(P**(P*0.5_dp))
  MC_vel = du*sg*(SQRT(1.0_dp - sg**2))**(P)
  
