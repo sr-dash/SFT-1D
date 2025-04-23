@@ -4,7 +4,6 @@
 [![Sphinx Doc](https://github.com/sr-dash/SFT-1D/actions/workflows/documentation.yml/badge.svg)](https://github.com/sr-dash/SFT-1D/actions/workflows/documentation.yml)
 [![ADS](https://img.shields.io/badge/ADS-2024ApJ...975..288D-red.svg)](https://ui.adsabs.harvard.edu/abs/2024ApJ...975..288D)
 [![arxiv](http://img.shields.io/badge/arXiv-2409.15233-orange.svg?style=flat)](https://arxiv.org/abs/2409.15233)
-[![HitCount](https://hits.dwyl.com/sr-dash/SFT-1D.svg?style=flat-square&show=unique)](http://hits.dwyl.com/sr-dash/SFT-1D)
 
 Surface Flux Transport modeling in one dimension (latitude).
 
