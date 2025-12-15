@@ -36,7 +36,7 @@ CONTAINS
  CHARACTER*(*), INTENT(IN):: parameterFile
  
 
- NAMELIST /user/ dataDir, input_files, nthUnif, nphUnif,  &
+ NAMELIST /user/ dataDir, input_files, nthUnif, nphUnif, output_freq, &
                  L, eta, tau, stopDay, C, peak_lat, total_bipoles, bipolefile, &
                  savesources,ADDBIPOLES,writefluximbalance, &
                  mc1,saverestart,restartfreq,restartDir, &

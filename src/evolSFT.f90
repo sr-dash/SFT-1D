@@ -38,16 +38,20 @@ CONTAINS
  
  REAL(dp), INTENT(in) :: eta,ds,cflFact
  REAL(dp), INTENT(in) :: MC_vel(0:nthUnif-2)
- REAL(dp) :: dt_eta,dt_mf,day,year
+ REAL(dp) :: dt_eta,dt_mf,day,year !,cr_day
  REAL(dp), INTENT(out) :: dt
  INTEGER, INTENT(out) :: ndt
  
  year = 365.25_dp
  day = 86400.0_dp
+ ! Number of days in a carrington rotation for Br output.
+ cr_day = 28*86400.0_dp
 
  dt_eta = (ds**2.0_dp)/eta
  dt_mf = MINVAL(ds/ABS(MC_vel))
  dt = cflFact*DMIN1(dt_eta, dt_mf)
+ 
+ ! Ensure dt is not larger than a day
  IF (dt .LT. day) THEN
  ndt = int(day/dt)
  dt = day/ndt
@@ -55,6 +59,15 @@ CONTAINS
  ndt = 1
  dt = day
  END IF
+
+ ! Ensure dt is not larger than a carrington rotation
+ !IF (dt .GT. cr_day) THEN
+ !ndt = int(cr_day/dt)
+ !dt = cr_day/ndt
+ !ELSE
+ !ndt = 1
+ !dt = cr_day
+ !END IF
 
  END SUBROUTINE timestep
 

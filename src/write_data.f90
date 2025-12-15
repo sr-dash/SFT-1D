@@ -1,235 +1,182 @@
-!<------------------------------------------------------------------>!
-!				Surface Flux Transport model 1D
-! This is the routine that defines NETCDF file operations.
-! For detailed theory of the setup refer to the doc file.
-!
-! Author: Soumyaranjan Dash
-! Date: Jul 14 2023
-
-! Copyright (C) Soumyaranjan Dash, University of Hawaii
-
-! This program is free software: you can redistribute it and/or modify
-! it under the terms of the GNU General Public License as published by
-! the Free Software Foundation, either version 3 of the License, or
-! (at your option) any later version.
-
-! This program is distributed in the hope that it will be useful,
-! but WITHOUT ANY WARRANTY; without even the implied warranty of
-! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-! GNU General Public License for more details.
-
-! You should have received a copy of the GNU General Public License
-! along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 MODULE write_data
+  USE netcdf
 
- USE variables
- USE grid_SFT
+  USE variables
+  USE grid_SFT
+
+  IMPLICIT NONE
 
 CONTAINS
-!****************************************************************
-SUBROUTINE OutputToNetCDF(filename,B)
 
- USE netcdf
-!---
- INTEGER,INTENT(IN),OPTIONAL :: B
- CHARACTER*(*),INTENT(IN) :: filename
- INTEGER(KIND=4) :: ncid   
- INTEGER(KIND=4) :: th_dimid
- INTEGER(KIND=4) :: th_varid
- INTEGER(KIND=4) :: br_varid
- !INTEGER(KIND=4) :: dm_varid
- INTEGER, PARAMETER :: dataType=NF90_REAL  ! set to NF90_REAL or NF90_DOUBLE
+SUBROUTINE Check(status)
+  INTEGER, INTENT(IN) :: status
+  IF (status /= NF90_NOERR) THEN
+    PRINT *, "NetCDF error:", nf90_strerror(status)
+    STOP 2
+  END IF
+END SUBROUTINE Check
 
-! ------------------------------------
-! Open file:
-CALL Check(nf90_create(TRIM(dataDir)//'/'//filename//'.nc', &
-    NF90_CLOBBER, ncid))
-! Make definitions:
-CALL Check(nf90_def_dim(ncid,"th",nthUnif,th_dimid))
-CALL Check(nf90_def_var(ncid,"th",dataType,th_dimid,th_varid))
+!---------------------------------------
+SUBROUTINE DipoleNetCDF(filename, time, dipole)
+  CHARACTER(*), INTENT(IN) :: filename
+  REAL(dp),     INTENT(IN) :: time(:)        ! (ntime)
+  REAL(dp),     INTENT(IN) :: dipole(:,:)    ! (ntime, 2)
 
-IF (PRESENT(B)) THEN
-CALL Check(nf90_def_var(ncid,"br",dataType,th_dimid,br_varid))
-END IF
+  INTEGER :: ncid, dim_time, dim_comp
+  INTEGER :: var_time, var_dipole
+  INTEGER, DIMENSION(2) :: dimids
 
-CALL Check(nf90_enddef(ncid))
+  CALL Check(nf90_create(TRIM(filename)//'.nc', NF90_CLOBBER, ncid))
 
-! Output coordinate arrays to file:
-CALL Check(nf90_put_var(ncid,th_varid,sc(0:nthUnif-1)))
+  CALL Check(nf90_def_dim(ncid, "time", SIZE(time), dim_time))
+  CALL Check(nf90_def_dim(ncid, "component", SIZE(dipole, 2), dim_comp))
 
-IF (PRESENT(B)) THEN
-! (1) Magnetic field
-! ------------------
-! Output variable to file:
+  dimids = (/ dim_time, dim_comp /)
+  CALL Check(nf90_def_var(ncid, "time",   NF90_DOUBLE, (/ dim_time /), var_time))
+  CALL Check(nf90_def_var(ncid, "dipole", NF90_DOUBLE, dimids, var_dipole))
 
-arrTx = br_1D(0:nthUnif-1)
-CALL Check(nf90_put_var(ncid,br_varid,arrTx)) 
-END IF
+  CALL Check(nf90_enddef(ncid))
+  CALL Check(nf90_put_var(ncid, var_time,   time))
+  CALL Check(nf90_put_var(ncid, var_dipole, dipole))
 
+  CALL Check(nf90_close(ncid))
+END SUBROUTINE DipoleNetCDF
 
-! Close and write the file
-CALL Check(nf90_close(ncid))
+!---------------------------------------
+SUBROUTINE BflyNetCDF(filename, latitudes, time, bfly)
+  CHARACTER(*), INTENT(IN) :: filename
+  REAL(dp),     INTENT(IN) :: latitudes(:)   ! (nlat)
+  REAL(dp),     INTENT(IN) :: time(:)        ! (ntime)
+  REAL(dp),     INTENT(IN) :: bfly(:,:)      ! (ntime, nlat)
 
-END SUBROUTINE OutputToNetCDF
+  INTEGER :: ncid, dim_time, dim_lat
+  INTEGER :: var_lat, var_time, var_bfly
+  INTEGER, DIMENSION(2) :: dimids
 
-!****************************************************************
-SUBROUTINE BflyNetCDF(filename,bfly_file)
+  CALL Check(nf90_create(TRIM(filename)//'.nc', NF90_CLOBBER, ncid))
 
- USE netcdf
-!---
- INTEGER,INTENT(IN),OPTIONAL :: bfly_file
- CHARACTER*(*),INTENT(IN) :: filename
- INTEGER(KIND=4) :: ncid   
- INTEGER(KIND=4) :: th_dimid
- INTEGER(KIND=4) :: th_varid
- INTEGER(KIND=4) :: bfly_varid
- INTEGER(KIND=4) :: time_dimid
- INTEGER(KIND=4) :: time_varid
- !INTEGER(KIND=4) :: dm_varid
- INTEGER, PARAMETER :: dataType=NF90_REAL  ! set to NF90_REAL or NF90_DOUBLE
+  CALL Check(nf90_def_dim(ncid, "lat",  SIZE(latitudes), dim_lat))
+  CALL Check(nf90_def_dim(ncid, "time", SIZE(time),      dim_time))
 
-IF (restart) THEN
+  CALL Check(nf90_def_var(ncid, "lat",  NF90_DOUBLE, (/ dim_lat /), var_lat))
+  CALL Check(nf90_def_var(ncid, "time", NF90_DOUBLE, (/ dim_time /), var_time))
 
-    ! ------------------------------------
-    ! Open file:
-    CALL Check(nf90_create(filename//'.nc', &
-        NF90_CLOBBER, ncid))
-    ! Make definitions:
-    CALL Check(nf90_def_dim(ncid,"sth",nthUnif,th_dimid))
-    CALL Check(nf90_def_var(ncid,"sth",dataType,th_dimid,th_varid))
-    CALL Check(nf90_def_dim(ncid,"time",nsteps-restartDay+1,time_dimid))
-    CALL Check(nf90_def_var(ncid,"time",dataType,time_dimid,time_varid))
+  dimids = (/ dim_time, dim_lat /)
+  CALL Check(nf90_def_var(ncid, "bfly", NF90_DOUBLE, dimids, var_bfly))
 
-    IF (PRESENT(bfly_file)) THEN
-    CALL Check(nf90_def_var(ncid,"bfly",dataType, &
-         (/ time_dimid, th_dimid /),bfly_varid))
-    END IF
+  CALL Check(nf90_enddef(ncid))
 
-    CALL Check(nf90_enddef(ncid))
+  CALL Check(nf90_put_var(ncid, var_lat,  latitudes))
+  CALL Check(nf90_put_var(ncid, var_time, time))
+  CALL Check(nf90_put_var(ncid, var_bfly, bfly))
 
-    ! Output coordinate arrays to file:
-    CALL Check(nf90_put_var(ncid,th_varid,sc(0:nthUnif-1)))
-    CALL Check(nf90_put_var(ncid,time_varid,time_var(0:nsteps-restartDay)))
-
-    IF (PRESENT(bfly_file)) THEN
-    ! (1) Butterfly diagram
-    ! ------------------
-    ! Output variable to file:
-
-    arrTy = bfly(0:nsteps-restartDay,0:nthUnif-1)
-    CALL Check(nf90_put_var(ncid,bfly_varid,arrTy)) 
-    END IF
-
-
-    ! Close and write the file
-    CALL Check(nf90_close(ncid))
-
-ELSE
-    ! ------------------------------------
-    ! Open file:
-    CALL Check(nf90_create(filename//'.nc', &
-        NF90_CLOBBER, ncid))
-    ! Make definitions:
-    CALL Check(nf90_def_dim(ncid,"sth",nthUnif,th_dimid))
-    CALL Check(nf90_def_var(ncid,"sth",dataType,th_dimid,th_varid))
-    CALL Check(nf90_def_dim(ncid,"time",nsteps+1,time_dimid))
-    CALL Check(nf90_def_var(ncid,"time",dataType,time_dimid,time_varid))
-
-    IF (PRESENT(bfly_file)) THEN
-    CALL Check(nf90_def_var(ncid,"bfly",dataType, &
-         (/ time_dimid, th_dimid /),bfly_varid))
-    END IF
-
-    CALL Check(nf90_enddef(ncid))
-
-    ! Output coordinate arrays to file:
-    CALL Check(nf90_put_var(ncid,th_varid,sc(0:nthUnif-1)))
-    CALL Check(nf90_put_var(ncid,time_varid,time_var(0:nsteps)))
-
-    IF (PRESENT(bfly_file)) THEN
-    ! (1) Butterfly diagram
-    ! ------------------
-    ! Output variable to file:
-
-    arrTy = bfly(0:nsteps,0:nthUnif-1)
-    CALL Check(nf90_put_var(ncid,bfly_varid,arrTy)) 
-    END IF
-
-
-    ! Close and write the file
-    CALL Check(nf90_close(ncid))
-
-END IF
-
+  CALL Check(nf90_close(ncid))
 END SUBROUTINE BflyNetCDF
 
+!---------------------------------------
+SUBROUTINE BrMapNetCDF(filename, latitudes, br_map)
+  CHARACTER(*), INTENT(IN) :: filename
+  REAL(dp),     INTENT(IN) :: latitudes(:)     ! (nlat)
+  REAL(dp),     INTENT(IN) :: br_map(:,:)      ! (ntime, nlat)
 
-!****************************************************************
-SUBROUTINE BMRNetCDF(filename,bmr_file)
+  INTEGER :: ncid, dim_time, dim_lat
+  INTEGER :: var_lat, var_br
+  INTEGER, DIMENSION(2) :: dimids
 
- USE netcdf
-!---
- INTEGER,INTENT(IN),OPTIONAL :: bmr_file
- CHARACTER*(*),INTENT(IN) :: filename
- INTEGER(KIND=4) :: ncid   
- INTEGER(KIND=4) :: th_dimid
- INTEGER(KIND=4) :: th_varid
- INTEGER(KIND=4) :: bmr_varid
- INTEGER(KIND=4) :: ph_dimid
- INTEGER(KIND=4) :: ph_varid
- !INTEGER(KIND=4) :: dm_varid
- INTEGER, PARAMETER :: dataType=NF90_REAL  ! set to NF90_REAL or NF90_DOUBLE
+  CALL Check(nf90_create(TRIM(filename)//'.nc', NF90_CLOBBER, ncid))
 
-! ------------------------------------
-! Open file:
-CALL Check(nf90_create(TRIM(bmrdir)//'/'//filename//'.nc', &
-    NF90_CLOBBER, ncid))
-! Make definitions:
-CALL Check(nf90_def_dim(ncid,"sth",nthUnif,th_dimid))
-CALL Check(nf90_def_var(ncid,"sth",dataType,th_dimid,th_varid))
-CALL Check(nf90_def_dim(ncid,"phi",nphUnif,ph_dimid))
-CALL Check(nf90_def_var(ncid,"phi",dataType,ph_dimid,ph_varid))
+  CALL Check(nf90_def_dim(ncid, "lat",  SIZE(latitudes), dim_lat))
+  CALL Check(nf90_def_dim(ncid, "time", SIZE(br_map, 1), dim_time))
 
-IF (PRESENT(bmr_file)) THEN
-CALL Check(nf90_def_var(ncid,"bmr",dataType, &
-     (/ th_dimid, ph_dimid /),bmr_varid))
-END IF
+  CALL Check(nf90_def_var(ncid, "lat", NF90_DOUBLE, (/ dim_lat /), var_lat))
 
-CALL Check(nf90_enddef(ncid))
+  dimids = (/ dim_time, dim_lat /)
+  CALL Check(nf90_def_var(ncid, "Br", NF90_DOUBLE, dimids, var_br))
 
-! Output coordinate arrays to file:
-CALL Check(nf90_put_var(ncid,th_varid,sc(0:nthUnif-1)))
-CALL Check(nf90_put_var(ncid,ph_varid,phc(0:nphUnif-1)))
+  CALL Check(nf90_enddef(ncid))
 
-IF (PRESENT(bmr_file)) THEN
-! (1) Butterfly diagram
-! ------------------
-! Output variable to file:
+  CALL Check(nf90_put_var(ncid, var_lat, latitudes))
+  CALL Check(nf90_put_var(ncid, var_br,  br_map))
 
-arrTy = brb(0:nthUnif-1,0:nphUnif-1)
-CALL Check(nf90_put_var(ncid,bmr_varid,arrTy)) 
-END IF
+  CALL Check(nf90_close(ncid))
+END SUBROUTINE BrMapNetCDF
 
+!---------------------------------------
+SUBROUTINE BMRNetCDF(filename, sth, phi, bmr_map)
+  CHARACTER(*), INTENT(IN) :: filename
+  REAL(dp),     INTENT(IN) :: sth(:)         ! sin(theta), length nth
+  REAL(dp),     INTENT(IN) :: phi(:)         ! longitude, length nph
+  REAL(dp),     INTENT(IN), OPTIONAL :: bmr_map(:,:) ! shape (nth, nph)
 
-! Close and write the file
-CALL Check(nf90_close(ncid))
+  INTEGER :: ncid, dim_th, dim_ph
+  INTEGER :: var_th, var_ph, var_bmr
+  INTEGER, DIMENSION(2) :: dimids
+  LOGICAL :: has_bmr
 
+  has_bmr = PRESENT(bmr_map)
+
+  CALL Check(nf90_create(TRIM(filename)//'.nc', NF90_CLOBBER, ncid))
+
+  CALL Check(nf90_def_dim(ncid, "sth", SIZE(sth), dim_th))
+  CALL Check(nf90_def_dim(ncid, "phi", SIZE(phi), dim_ph))
+
+  CALL Check(nf90_def_var(ncid, "sth", NF90_DOUBLE, (/ dim_th /), var_th))
+  CALL Check(nf90_def_var(ncid, "phi", NF90_DOUBLE, (/ dim_ph /), var_ph))
+
+  IF (has_bmr) THEN
+    dimids = (/ dim_th, dim_ph /)
+    CALL Check(nf90_def_var(ncid, "bmr", NF90_DOUBLE, dimids, var_bmr))
+  END IF
+
+  CALL Check(nf90_enddef(ncid))
+
+  CALL Check(nf90_put_var(ncid, var_th, sth))
+  CALL Check(nf90_put_var(ncid, var_ph, phi))
+
+  IF (has_bmr) THEN
+    CALL Check(nf90_put_var(ncid, var_bmr, bmr_map))
+  END IF
+
+  CALL Check(nf90_close(ncid))
 END SUBROUTINE BMRNetCDF
 
-!****************************************************************
-SUBROUTINE Check(istatus)
-!----------------------------------------------------------------
-! Check (ever so slightly modified from www.unidata.ucar.edu).
-! For netcdf.
-!----------------------------------------------------------------
- USE netcdf
- INTEGER, INTENT (IN) :: istatus
-    
-  IF (istatus /= nf90_noerr) THEN
-     write(*,*) TRIM(ADJUSTL(nf90_strerror(istatus)))
-  END IF
-  
-END SUBROUTINE Check
+
+SUBROUTINE WriteRestart(dirname, step, C1_val, eta_val, br)
+  USE variables, ONLY: nthUnif, dp
+  IMPLICIT NONE
+
+  CHARACTER(*), INTENT(IN) :: dirname
+  INTEGER, INTENT(IN) :: step
+  REAL(dp), INTENT(IN) :: C1_val, eta_val
+  REAL(dp), DIMENSION(0:nthUnif-1), INTENT(IN) :: br
+
+  CHARACTER(5) :: step_str
+  CHARACTER(200) :: filename_param, filename_br
+  INTEGER :: i
+
+  ! Format timestep as a string
+  WRITE(step_str, '(I5.5)') step
+
+  ! Construct file paths
+  filename_param = TRIM(dirname)//'/restart_'//TRIM(step_str)//'.txt'
+  filename_br = TRIM(dirname)//'/br_'//TRIM(step_str)//'.dat'
+
+  ! Write parameter file
+  OPEN(UNIT=91, FILE=filename_param, STATUS='unknown', ACTION='write')
+    WRITE(91, '(A)') 'SFT Restart File'
+    WRITE(91, *) 'C1 = ', C1_val
+    WRITE(91, *) 'eta = ', eta_val
+    WRITE(91, *) 'br_file = ', TRIM(filename_br)
+  CLOSE(91)
+
+  ! Write radial field (br_1D) to binary/text file
+  OPEN(UNIT=92, FILE=filename_br, STATUS='unknown', ACTION='write')
+    DO i = 0, nthUnif - 1
+      WRITE(92, *) br(i)
+    END DO
+  CLOSE(92)
+
+END SUBROUTINE WriteRestart
+
 
 END MODULE write_data

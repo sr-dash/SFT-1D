@@ -5,6 +5,7 @@
 bin/*
 output_files/BMRs/*
 obj/*
+notebooks/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -85,7 +86,8 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
-
+test_results.ipynb
+update_bfly.ipynb
 # IPython
 profile_default/
 ipython_config.py

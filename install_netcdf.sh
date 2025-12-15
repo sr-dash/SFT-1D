@@ -61,9 +61,9 @@ tar -xf curl-$CLTAG.tar.gz
 cd curl-$CLTAG/
 CLDIR=$MAINDIR
 echo " --->> Compiling curl-$CLTAG"
-./configure --prefix=${CLDIR} > config.log 2>&1
-make -j4 > config.log 2>&1
-make install > config.log 2>&1
+./configure --with-darwinssl --prefix=${CLDIR} > config.log 
+make -j4 > config.log 
+make install > config.log 
 cd ..
 rm -rf curl-$CLTAG
 

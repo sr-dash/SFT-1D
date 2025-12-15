@@ -58,7 +58,7 @@ bfly1 = glob.glob(os.getcwd()+'/output_files/bfly_%3d_*.nc'%int(eta))[0]
 
 fh2 = netcdf_file(bfly1)
 bfly = fh2.variables['bfly'].data.copy()
-sth = fh2.variables['sth'].data.copy()
+sth = fh2.variables['lat'].data.copy()
 time = fh2.variables['time'].data.copy()
 
 fh2.close()

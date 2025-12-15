@@ -5,17 +5,18 @@
 !--Grid (thMin is in degrees):
 	nthUnif = 180,
 	nphUnif = 360,
+	output_freq = 28,
 !--Dimensional factors (in km,s):
 	L = 6.96e5,
 	eta = 450.0,
 	tau = 0.0,
-	stopDay = 5111,
+	stopDay = 5987,
 !--Meridional flow parameters:
-C = 30.7,
-peak_lat = 35,
+	C = 30.7,
+	peak_lat = 35,
 !--Bipole file location:
-	total_bipoles = 1643,
-	bipolefile = "bipole_file/all_bmrs.txt",
+	total_bipoles = 2055,
+	bipolefile = "bipole_file/all_bmrs_2025.txt",
 	savesources = .FALSE.
 	ADDBIPOLES = .TRUE.,
 	writefluximbalance = .FALSE.,
@@ -26,6 +27,6 @@ peak_lat = 35,
 	restartDir = "restart_files",
 !--Restart simulation (in days):
 	restart = .FALSE.,
-restartDay = 0500,
-stop_res = 01300
+	restartDay = 0500,
+	stop_res = 01300
 	/

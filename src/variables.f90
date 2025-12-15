@@ -52,7 +52,7 @@ MODULE variables
  REAL(dp) :: year, day
  REAL(dp) :: dm_1D
  INTEGER :: nthUnif, nphUnif, ndt, total_bipoles
- INTEGER :: i, j, k, k1, nsteps
+ INTEGER :: i, j, k, k1, nsteps, output_freq, noutputs, iout
  INTEGER :: i1, j1, istart, junk1,idummy,bip_start
 
 END MODULE variables
