@@ -30,13 +30,13 @@ from datetime import timedelta
 import f90nml
 
 # Read the parameter file to retrive the values
-nml = f90nml.read('initial_Parameters.nml')
+nml = f90nml.read(os.getcwd()+'/initial_Parameters.nml')
 eta = nml['user']['eta']
 peak_lat = nml['user']['peak_lat']
 
 # Set the time range for the plot.
-# datetime(2010,6,17)+timedelta(days=14*365)
-t_sft = np.arange(dt1(2010,6,17), dt1(2024,6,14), timedelta(days=1)).astype(dt1)
+# datetime(2010,6,17)+timedelta(days=5987)
+t_sft = np.arange(dt1(2010,6,17), dt1(2026,11,7), timedelta(days=1)).astype(dt1)
 
 
 # Function to convert time string to fractional year.
@@ -64,7 +64,7 @@ time = fh2.variables['time'].data.copy()
 fh2.close()
 
 # Read HMI butterfly diagram data from the file.
-picklefile_hmi_bfly = open('./hmi_bfly.p','rb')
+picklefile_hmi_bfly = open('./hmi_bfly_new.p','rb')
 bflyhmi = pickle.load(picklefile_hmi_bfly)
 timearr = pickle.load(picklefile_hmi_bfly)
 latbfly = pickle.load(picklefile_hmi_bfly)
@@ -83,32 +83,36 @@ ax1.set_xlim([time[0],time[-1]])
 # ax1.set_xlim([-90,90])
 ax1.set_xlabel('Years')
 ax1.set_ylabel('Latitude (degrees)')
-ax1.axvline(x = frac_year('2023-09-04'), c='brown',ls='--',alpha=0.8)
+ax1.axvline(x = frac_year('2025-11-08'), c='brown',ls='--',alpha=0.8)
 divider = make_axes_locatable(ax1)
 cax = divider.append_axes('right', size='5%', pad=0.15)
-fig.colorbar(pm, cax=cax, orientation='vertical',label='B$_r$ [G]')
-ax1.set_title('$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3))
-ax1.text(0.01,0.95,'SFT B$_r$ butterfly diagram',transform=ax1.transAxes,
+fig.colorbar(pm, cax=cax, orientation='vertical',label=r'B$_r$ [G]')
+ax1.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3))
+ax1.text(0.01,0.95,r'SFT B$_r$ butterfly diagram',transform=ax1.transAxes,
         fontsize=10,color='brown')
 
 ax2 = plt.subplot(212)
 im2 = ax2.pcolormesh(timearr,np.rad2deg(np.arcsin(latbfly)),bflyhmi,cmap='bwr',vmax=10,vmin=-10)
-ax2.set_xlim([time[0],time[-1]])
+# ax2.set_xlim([timearr[0],timearr[-1]])
+ax2.set_xlim([time[0],time[-1]]) 
 ax2.set_xlabel('Years')
 ax2.set_ylabel('Latitude (degrees)')
 divider = make_axes_locatable(ax2)
 cax = divider.append_axes('right', size='5%', pad=0.15)
 fig.colorbar(im2, cax=cax, orientation='vertical',label='B$_r$ [G]')
-ax2.text(0.01,0.95,'HMI B$_r$ butterfly diagram',transform=ax2.transAxes,
+ax2.text(0.01,0.95,r'HMI B$_r$ butterfly diagram',transform=ax2.transAxes,
         fontsize=10,color='brown')
 
 plt.savefig(PLOTPATH+'/bfly_all_bipoles_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
             dpi=300,transparent=False,bbox_inches='tight')
 # plt.show()
 
+datetime_arr = []
+for i in range(215):
+    datetime_arr.append(datetime.datetime(2010,6,17)+timedelta(days=28*i))
 
 # Plot and compare the HMI polar field data with SFT simulation output.
-picklefile = open(os.getcwd()+'/hmi_polar_field.p','rb')
+picklefile = open(os.getcwd()+'/hmi_polar_field_new.p','rb')
 n = pickle.load(picklefile)
 s = pickle.load(picklefile)
 mn = pickle.load(picklefile)
@@ -125,15 +129,18 @@ ax.fill_between(t, mn - sn, mn + sn, edgecolor="none", facecolor="b", alpha=0.3,
 ax.fill_between(t, ms - ss, ms + ss, edgecolor="none", facecolor="g", alpha=0.3, interpolate=True)
 ax.plot(t, mn, "b", label="North pole")
 ax.plot(t, ms, "g", label="South pole")
+ax.set_ylim([-6,6])
 
 ax2 = ax.twinx()
 ind = np.where(np.rad2deg(np.arcsin(sth)) > 60)[0][0]
 
-ax2.plot(t_sft,np.sum(bfly[ind:,:],axis=0)/np.shape(bfly[ind:,:])[0],lw=2,c='indigo',label='Northern hemisphere')
-ax2.plot(t_sft,np.sum(bfly[0:181-ind,:],axis=0)/np.shape(bfly[0:181-ind,:])[0],lw=2,c='lime',label='Southern hemisphere')
+ax2.plot(datetime_arr,np.sum(bfly[ind:,:],axis=0)/np.shape(bfly[ind:,:])[0],lw=2,c='indigo',label='Northern hemisphere')
+ax2.plot(datetime_arr,np.sum(bfly[0:181-ind,:],axis=0)/np.shape(bfly[0:181-ind,:])[0],lw=2,c='lime',label='Southern hemisphere')
 
 
 ax2.set_ylabel("Mean radial field strength with SFT [G]", color="C3")
+ax2.set_ylim([-6,6])
+# ax2.set_xlim([t[0],t[-1]])
 # ax3.set_xlabel("Time", color="C1")
 
 ax2.tick_params(axis="y", color="C3", labelcolor="C3")
@@ -148,7 +155,7 @@ ax.minorticks_on()
 ax.grid()
 fig.tight_layout()
 
-ax.text(0.02,0.93,'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3)
+ax.text(0.02,0.93,r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3)
         ,color='brown',fontsize=10,transform=ax.transAxes)
 
 plt.savefig(PLOTPATH+'/polar_field_comparision_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
@@ -156,16 +163,15 @@ plt.savefig(PLOTPATH+'/polar_field_comparision_%3d_%3d.png'%(int(eta),np.max(v1[
 # plt.show()
 
 # Read and plot the dipole moment and velocity profile used in the simulation.
-
 f1 = glob.glob(os.getcwd()+'/output_files/DM_*.dat')[0]
 f2 = np.loadtxt(f1)
 
 
 plt.figure(figsize=[12,5])
 ax1 = plt.subplot(121)
-ax1.plot(time[:np.where(time >= frac_year('2023-09-04'))[0][0]],f2[:np.where(time >= frac_year('2023-09-04'))[0][0],1],label='$\eta$ = %3d km$^2$/s'%(int(eta)),c='k')
+ax1.plot(time[:np.where(time >= frac_year('2025-11-08'))[0][0]],f2[:np.where(time >= frac_year('2025-11-08'))[0][0],1],label=r'$\eta$ = %3d km$^2$/s'%(int(eta)),c='k')
 
-ax1.plot(time[np.where(time >= frac_year('2023-09-04'))[0][0]:-1],f2[np.where(time >= frac_year('2023-09-04'))[0][0]:,1],label='forward run',c='lightgreen')
+ax1.plot(time[np.where(time >= frac_year('2025-11-07'))[0][0]:-1],f2[np.where(time >= frac_year('2025-11-07'))[0][0]:,1],label='forward run',c='lightgreen')
 
 # ax1.set_xlim([time[0],frac_year('2023-09-04')])
 ax1.set_xlabel('Years')

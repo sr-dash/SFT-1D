@@ -84,7 +84,7 @@ PROGRAM SFT_1D
   CALL SYSTEM('mkdir -p restart_00000')
   CALL WriteRestart('restart_00000', 0, C, eta*(L**2), br_1D)
 
-  CALL File_name('MC_vel'//snap3, 16, FO=1)
+  CALL File_name('MC_vel'//TRIM(snap3), 16, FO=1)
   DO i = 0, nthUnif - 2
     WRITE(16, *) sg(i), MC_vel(i)
   END DO
@@ -114,7 +114,7 @@ PROGRAM SFT_1D
   ALLOCATE(time_var(0:noutputs))
   ALLOCATE(bfly(0:noutputs, 0:nthUnif-1))
   time_var(0) = 2010.457221081451_dp + REAL(istart - restartDay, dp)/365.25_dp
-  WRITE(*,*) 'Time variable start (Before sim): ', time_var(0)
+  
   bfly(0,:) = br_1D
 
   iout = 1
@@ -192,6 +192,5 @@ PROGRAM SFT_1D
     CALL BflyNetCDF(TRIM(dataDir)//'/bfly_'//TRIM(snap2)//'_'//TRIM(snap3), &
                     sc(0:nthUnif-1), time_var(0:iout-1), bfly(0:iout-1, 0:nthUnif-1))
   END IF
-  WRITE(*,*) 'Time variable start and finish: ', time_var(0), time_var(iout-1)
 
 END PROGRAM SFT_1D

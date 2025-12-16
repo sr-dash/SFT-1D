@@ -8,11 +8,11 @@
 	output_freq = 28,
 !--Dimensional factors (in km,s):
 	L = 6.96e5,
-	eta = 450.0,
+	eta = 500.0,
 	tau = 0.0,
 	stopDay = 5987,
 !--Meridional flow parameters:
-	C = 30.7,
+	C = 40.0,
 	peak_lat = 35,
 !--Bipole file location:
 	total_bipoles = 2055,
