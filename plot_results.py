@@ -33,6 +33,7 @@ import f90nml
 nml = f90nml.read(os.getcwd()+'/initial_Parameters.nml')
 eta = nml['user']['eta']
 peak_lat = nml['user']['peak_lat']
+out_freq = nml['user']['output_freq']
 
 # Set the time range for the plot.
 # datetime(2010,6,17)+timedelta(days=5987)
@@ -108,8 +109,8 @@ plt.savefig(PLOTPATH+'/bfly_all_bipoles_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L
 # plt.show()
 
 datetime_arr = []
-for i in range(215):
-    datetime_arr.append(datetime.datetime(2010,6,17)+timedelta(days=28*i))
+for i in range(time.shape[0]):
+    datetime_arr.append(datetime.datetime(2010,6,17)+timedelta(days=out_freq*i))
 
 # Plot and compare the HMI polar field data with SFT simulation output.
 picklefile = open(os.getcwd()+'/hmi_polar_field_new.p','rb')

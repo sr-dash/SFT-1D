@@ -5,7 +5,7 @@
 !--Grid (thMin is in degrees):
 	nthUnif = 180,
 	nphUnif = 360,
-	output_freq = 28,
+	output_freq = 14,
 !--Dimensional factors (in km,s):
 	L = 6.96e5,
 	eta = 500.0,
