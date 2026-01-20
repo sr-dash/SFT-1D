@@ -172,12 +172,11 @@ PROGRAM SFT_1D
         FV_flx(1:nthUnif-1) = FV_flx(1:nthUnif-1) - 0.5_dp * (1.0_dp - SIGN(1._dp, MC_vel)) * MC_vel * br_1D(1:)
       END WHERE
       ! Separately compute the fluxes and add them for time update
-      ! Advective flux (upwind)
-        WHERE (MC_vel(0:nthUnif-2) > 0.0_dp)
-          Fadv(1:nthUnif-1) = MC_vel * br_1D(:nthUnif-2)
-        ELSEWHERE
-          Fadv(1:nthUnif-1) = MC_vel * br_1D(1:)
-        END WHERE
+      ! Advective flux (exact Godunov form)
+        Fadv(1:nthUnif-1) = 0.5_dp * (1.0_dp + SIGN(1._dp, MC_vel)) * &
+                    MC_vel * br_1D(:nthUnif-2) + &
+                    0.5_dp * (1.0_dp - SIGN(1._dp, MC_vel)) * &
+                    MC_vel * br_1D(1:)
         dbrdt_diff = (Fdiff(1:) - Fdiff(:nthUnif-1)) / ds
         dbrdt_adv  = (Fadv(1:)  - Fadv(:nthUnif-1))  / ds
         
