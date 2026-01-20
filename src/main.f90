@@ -94,6 +94,10 @@ PROGRAM SFT_1D
 
   CALL timestep(eta, MC_vel, ds, cflFact, dt, ndt)
   ALLOCATE(FV_flx(0:nthUnif))
+  ALLOCATE(Fdiff(0:nthUnif))
+  ALLOCATE(Fadv(0:nthUnif))
+  ALLOCATE(dbrdt_diff(1:nthUnif-1))
+  ALLOCATE(dbrdt_adv(1:nthUnif-1))
   OPEN(12, FILE=TRIM(dataDir)//'/DM_'//TRIM(snap2)//'_'//TRIM(snap3)//'.dat', STATUS='unknown', ACTION='write')
 
   IF (writefluximbalance) THEN
@@ -113,6 +117,8 @@ PROGRAM SFT_1D
   noutputs = (nsteps - istart + 1) / output_freq + 1
   ALLOCATE(time_var(0:noutputs))
   ALLOCATE(bfly(0:noutputs, 0:nthUnif-1))
+  ALLOCATE(bfly_resfl(0:noutputs, 0:nthUnif-1))
+  ALLOCATE(bfly_advfl(0:noutputs, 0:nthUnif-1))
   time_var(0) = 2010.457221081451_dp + REAL(istart - restartDay, dp)/365.25_dp
   
   bfly(0,:) = br_1D
@@ -155,18 +161,36 @@ PROGRAM SFT_1D
 
     DO j = 1, ndt
       FV_flx = 0.0_dp
+      Fdiff = 0.0_dp
+      Fadv  = 0.0_dp
       FV_flx(1:nthUnif-1) = eta * (1.0_dp - sg**2) * (br_1D(1:) - br_1D(:nthUnif-2)) / ds
+      Fdiff(1:nthUnif-1) = eta * (1.0_dp - sg**2) * &
+                     (br_1D(1:) - br_1D(:nthUnif-2)) / ds
       WHERE (MC_vel(0:nthUnif-2) > 0.0_dp)
         FV_flx(1:nthUnif-1) = FV_flx(1:nthUnif-1) - 0.5_dp * (1.0_dp + SIGN(1._dp, MC_vel)) * MC_vel * br_1D(:nthUnif-2)
       ELSEWHERE
         FV_flx(1:nthUnif-1) = FV_flx(1:nthUnif-1) - 0.5_dp * (1.0_dp - SIGN(1._dp, MC_vel)) * MC_vel * br_1D(1:)
       END WHERE
-      br_1D = br_1D + (dt/ds)*(FV_flx(1:) - FV_flx(:nthUnif-1))
+      ! Separately compute the fluxes and add them for time update
+      ! Advective flux (upwind)
+        WHERE (MC_vel(0:nthUnif-2) > 0.0_dp)
+          Fadv(1:nthUnif-1) = MC_vel * br_1D(:nthUnif-2)
+        ELSEWHERE
+          Fadv(1:nthUnif-1) = MC_vel * br_1D(1:)
+        END WHERE
+        dbrdt_diff = (Fdiff(1:) - Fdiff(:nthUnif-1)) / ds
+        dbrdt_adv  = (Fadv(1:)  - Fadv(:nthUnif-1))  / ds
+        
+        br_1D = br_1D + dt * (dbrdt_diff - dbrdt_adv)
+
+      !br_1D = br_1D + (dt/ds)*(FV_flx(1:) - FV_flx(:nthUnif-1))
     END DO
 
     dm_1D = 1.5_dp * SUM(br_1D * sc * ds)
     IF (MOD(i - istart, output_freq) == 0) THEN
       bfly(iout,:) = br_1D
+      bfly_resfl(iout,:) = Fdiff(0:nthUnif-1)
+      bfly_advfl(iout,:) = Fadv(0:nthUnif-1)
       time_var(iout) = time_var(0) + REAL(i,dp)/365.25_dp
       WRITE(12, *) time_var(iout), dm_1D
       iout = iout + 1
@@ -188,9 +212,18 @@ PROGRAM SFT_1D
   IF (restart) THEN
     CALL BflyNetCDF(restartedoutput//'bfly_restart_'//snap5//'_'//snap2//'_'//snap3, &
                     sc(0:nthUnif-1), time_var(0:iout-1), bfly(0:iout-1, 0:nthUnif-1))
+
+    CALL BflyNetCDF(restartedoutput//'bfly_resfluxes_restart_'//snap5//'_'//snap2//'_'//snap3, &
+                    sc(0:nthUnif-1), time_var(0:iout-1), bfly_resfl(0:iout-1, 0:nthUnif-1))
+    CALL BflyNetCDF(restartedoutput//'bfly_advfluxes_restart_'//snap5//'_'//snap2//'_'//snap3, &
+                    sc(0:nthUnif-1), time_var(0:iout-1), bfly_advfl(0:iout-1, 0:nthUnif-1))
   ELSE
     CALL BflyNetCDF(TRIM(dataDir)//'/bfly_'//TRIM(snap2)//'_'//TRIM(snap3), &
                     sc(0:nthUnif-1), time_var(0:iout-1), bfly(0:iout-1, 0:nthUnif-1))
+    CALL BflyNetCDF(TRIM(dataDir)//'/bfly_resfluxes_'//TRIM(snap2)//'_'//TRIM(snap3), &
+                    sc(0:nthUnif-1), time_var(0:iout-1), bfly_resfl(0:iout-1, 0:nthUnif-1))
+    CALL BflyNetCDF(TRIM(dataDir)//'/bfly_advfluxes_'//TRIM(snap2)//'_'//TRIM(snap3), &
+                    sc(0:nthUnif-1), time_var(0:iout-1), bfly_advfl(0:iout-1, 0:nthUnif-1))
   END IF
 
 END PROGRAM SFT_1D

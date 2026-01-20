@@ -38,8 +38,11 @@ MODULE variables
 !REAL(dp), PARAMETER :: rtod = 180.0_dp/pi
  REAL(dp) :: C,P,du,C1, peak_lat
  REAL(dp), ALLOCATABLE :: br_1D(:),time_var(:)
- REAL(dp), ALLOCATABLE :: FV_flx(:)
+ REAL(dp), ALLOCATABLE :: FV_flx(:),FV_flx_eta(:),FV_flx_vel(:)
+ REAL(dp), ALLOCATABLE :: Fdiff(:), Fadv(:)
+ REAL(dp), ALLOCATABLE :: dbrdt_diff(:), dbrdt_adv(:)
  REAL(dp), ALLOCATABLE :: br_2D(:,:), brb(:,:),bfly(:,:)
+ REAL(dp), ALLOCATABLE :: bfly_resfl(:,:),bfly_advfl(:,:)
  REAL(dp), ALLOCATABLE :: sc(:), phc(:), sg(:)
  REAL(dp), ALLOCATABLE :: sc1(:), phc1(:), sg1(:)
  REAL(dp), ALLOCATABLE :: lat0(:),lon0(:),sep0(:),tilt0(:),B0(:),sharpnum(:)
