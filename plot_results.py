@@ -88,7 +88,7 @@ ax1.axvline(x = frac_year('2025-11-08'), c='brown',ls='--',alpha=0.8)
 divider = make_axes_locatable(ax1)
 cax = divider.append_axes('right', size='5%', pad=0.15)
 fig.colorbar(pm, cax=cax, orientation='vertical',label=r'B$_r$ [G]')
-ax1.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3))
+ax1.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),round(np.max(v1[:,1])*L1*1E3)))
 ax1.text(0.01,0.95,r'SFT B$_r$ butterfly diagram',transform=ax1.transAxes,
         fontsize=10,color='brown')
 
@@ -104,7 +104,7 @@ fig.colorbar(im2, cax=cax, orientation='vertical',label='B$_r$ [G]')
 ax2.text(0.01,0.95,r'HMI B$_r$ butterfly diagram',transform=ax2.transAxes,
         fontsize=10,color='brown')
 
-plt.savefig(PLOTPATH+'/bfly_all_bipoles_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
+plt.savefig(PLOTPATH+'/bfly_all_bipoles_%3d_%3d.png'%(int(eta),round(np.max(v1[:,1])*L1*1E4)),
             dpi=300,transparent=False,bbox_inches='tight')
 # plt.show()
 
@@ -156,10 +156,10 @@ ax.minorticks_on()
 ax.grid()
 fig.tight_layout()
 
-ax.text(0.02,0.93,r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3)
+ax.text(0.02,0.93,r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),round(np.max(v1[:,1])*L1*1E3))
         ,color='brown',fontsize=10,transform=ax.transAxes)
 
-plt.savefig(PLOTPATH+'/polar_field_comparision_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
+plt.savefig(PLOTPATH+'/polar_field_comparision_%3d_%3d.png'%(int(eta),round(np.max(v1[:,1])*L1*1E4)),
             dpi=300,transparent=False,bbox_inches='tight')
 # plt.show()
 
@@ -184,7 +184,7 @@ ax1.legend()
 ax2 = plt.subplot(122)
 vel = glob.glob(os.getcwd()+'/output_files/MC_vel*.dat')[0]
 v1 = np.loadtxt(vel)
-ax2.plot(np.rad2deg(np.arcsin(v1[:,0])),v1[:,1]*L1*1E3,label=f'Peak flow amplitude {np.max(v1[:,1]*L1*1E3):2.2f} m/s',c='r')
+ax2.plot(np.rad2deg(np.arcsin(v1[:,0])),v1[:,1]*L1*1E3,label=f'Peak flow amplitude {round(np.max(v1[:,1]*L1*1E3)):2.2f} m/s',c='r')
 ax2.axvline(x=-peak_lat, c='brown',ls='--',alpha=0.8,label=f'Peak latitude: {peak_lat} degrees')
 ax2.axvline(x=peak_lat, c='brown',ls='--',alpha=0.8,label=None)
 
@@ -194,7 +194,7 @@ ax2.set_ylabel('Flow speed [m/s]')
 ax2.minorticks_on()
 ax2.legend(fontsize=8)
 ax2.grid()
-plt.savefig(PLOTPATH+'/DM_flows_%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
+plt.savefig(PLOTPATH+'/DM_flows_%3d_%3d.png'%(int(eta),round(np.max(v1[:,1])*L1*1E4)),
             dpi=300,transparent=False,bbox_inches='tight')
 # plt.show()
 

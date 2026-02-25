@@ -55,10 +55,10 @@ if not os.path.exists(PLOTPATH):
     os.makedirs(PLOTPATH)
 
 # Read the butterfly diagram file from the output directory.
-bfly1 = glob.glob(os.getcwd()+'/output_files/bfly_%3d_*.nc'%int(eta))[0]
+bfly1 = glob.glob(os.getcwd()+'/output_files/bfly_%3d_*.nc'%round(eta))[0]
 
-bfly_eta = glob.glob(os.getcwd()+'/output_files/bfly_advfluxes_%3d_*.nc'%int(eta))[0]
-bfly_adv = glob.glob(os.getcwd()+'/output_files/bfly_resfluxes_%3d_*.nc'%int(eta))[0]
+bfly_adv = glob.glob(os.getcwd()+'/output_files/bfly_advfluxes_%3d_*.nc'%round(eta))[0]
+bfly_eta = glob.glob(os.getcwd()+'/output_files/bfly_resfluxes_%3d_*.nc'%round(eta))[0]
 
 fh2 = netcdf_file(bfly1)
 bfly = fh2.variables['bfly'].data.copy()
@@ -96,13 +96,13 @@ L1 = 6.96e5
 pm = ax1.pcolormesh(time,np.rad2deg(np.arcsin(sth)),bfly,cmap='bwr',vmax=10,vmin=-10)
 ax1.set_xlim([time[0],time[-1]])  
 # ax1.set_xlim([-90,90])
-ax1.set_xlabel('Years')
+# ax1.set_xlabel('Years')
 ax1.set_ylabel('Latitude (degrees)')
 ax1.axvline(x = frac_year('2025-11-08'), c='brown',ls='--',alpha=0.8)
 divider = make_axes_locatable(ax1)
 cax = divider.append_axes('right', size='5%', pad=0.15)
 fig.colorbar(pm, cax=cax, orientation='vertical',label=r'B$_r$ [G]')
-ax1.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3))
+ax1.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(round(eta),round(np.max(v1[:,1])*L1*1E3)))
 ax1.text(0.01,0.9,r'SFT B$_r$ butterfly diagram',transform=ax1.transAxes,
         fontsize=10,color='brown')
 
@@ -111,13 +111,13 @@ ax2 = plt.subplot(412)
 pm2 = ax2.pcolormesh(time,np.rad2deg(np.arcsin(sth)),bfly_eta,cmap='bwr',vmax=1e-7,vmin=-1e-7)
 ax2.set_xlim([time[0],time[-1]])  
 # ax1.set_xlim([-90,90])
-ax2.set_xlabel('Years')
+# ax2.set_xlabel('Years')
 ax2.set_ylabel('Latitude (degrees)')
 ax2.axvline(x = frac_year('2025-11-08'), c='brown',ls='--',alpha=0.8)
 divider = make_axes_locatable(ax2)
 cax = divider.append_axes('right', size='5%', pad=0.15)
 fig.colorbar(pm2, cax=cax, orientation='vertical',label=r'F$_{resistive}$ [G/s]')
-# ax2.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3))
+# ax2.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(round(eta),np.max(v1[:,1])*L1*1E3))
 ax2.text(0.01,0.9,r'Resistive flux butterfly diagram',transform=ax2.transAxes,
         fontsize=10,color='brown')
 
@@ -126,13 +126,13 @@ ax3 = plt.subplot(413)
 pm3 = ax3.pcolormesh(time,np.rad2deg(np.arcsin(sth)),bfly_adv,cmap='bwr',vmax=1e-7,vmin=-1e-7)
 ax3.set_xlim([time[0],time[-1]])  
 # ax1.set_xlim([-90,90])
-ax3.set_xlabel('Years')
+# ax3.set_xlabel('Years')
 ax3.set_ylabel('Latitude (degrees)')
 ax3.axvline(x = frac_year('2025-11-08'), c='brown',ls='--',alpha=0.8)
 divider = make_axes_locatable(ax3)
 cax = divider.append_axes('right', size='5%', pad=0.15)
 fig.colorbar(pm3, cax=cax, orientation='vertical',label=r'F$_{advective}$ [G/s]')
-# ax3.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(int(eta),np.max(v1[:,1])*L1*1E3))
+# ax3.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(round(eta),np.max(v1[:,1])*L1*1E3))
 ax3.text(0.01,0.9,r'Advective flux butterfly diagram',transform=ax3.transAxes,
         fontsize=10,color='brown')
 
@@ -149,6 +149,32 @@ fig.colorbar(im4, cax=cax, orientation='vertical',label='B$_r$ [G]')
 ax4.text(0.01,0.9,r'HMI B$_r$ butterfly diagram',transform=ax4.transAxes,
         fontsize=10,color='brown')
 
-plt.savefig(PLOTPATH+'/bfly_all_bipoles_fluxes%3d_%3d.png'%(int(eta),np.max(v1[:,1])*L1*1E4),
+plt.savefig(PLOTPATH+'/bfly_all_bipoles_fluxes_%3d_%3d.png'%(round(eta),round(np.max(v1[:,1])*L1*1E4)),
             dpi=300,transparent=False,bbox_inches='tight')
 plt.show()
+
+# Line plot of resistive flux at equator
+fig = plt.figure(figsize=[12,6])
+ax1 = plt.subplot(211)
+ax1.plot(time,bfly_eta[90,])
+ax1.set_xlim([time[0],time[-1]])  
+ax1.set_ylim([-5e-8,5e-8])
+# ax1.set_xlabel('Years')
+ax1.set_ylabel('[G/s]')  
+ax1.set_title(r'$\eta$ = %3d km$^2$/s, V0 = %2.1f m/s'%(round(eta),round(np.max(v1[:,1])*L1*1E3)))
+ax1.text(0.01,0.90,r'Resistive flux at equator',transform=ax1.transAxes,fontsize=10)
+
+
+ax2 = plt.subplot(212)
+ax2.plot(time,bfly_adv[90,])
+ax2.set_xlim([time[0],time[-1]])  
+ax2.set_ylim([-5e-8,5e-8])  
+ax2.set_xlabel('Years')
+ax2.set_ylabel('[G/s]')  
+ax2.text(0.01,0.90,r'Advective flux at equator',transform=ax2.transAxes,fontsize=10)
+
+plt.savefig(PLOTPATH+'/equatorial_fluxes_%3d_%3d.png'%(round(eta),round(np.max(v1[:,1])*L1*1E4)),
+            dpi=300,transparent=False,bbox_inches='tight')
+plt.show()
+
+
