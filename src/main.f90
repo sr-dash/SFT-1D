@@ -188,7 +188,7 @@ PROGRAM SFT_1D
     dm_1D = 1.5_dp * SUM(br_1D * sc * ds)
     IF (MOD(i - istart, output_freq) == 0) THEN
       bfly(iout,:) = br_1D
-      bfly_resfl(iout,:) = Fdiff(0:nthUnif-1)
+      bfly_resfl(iout,:) = -Fdiff(0:nthUnif-1)
       bfly_advfl(iout,:) = Fadv(0:nthUnif-1)
       time_var(iout) = time_var(0) + REAL(i,dp)/365.25_dp
       WRITE(12, *) time_var(iout), dm_1D

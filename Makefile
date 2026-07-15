@@ -6,8 +6,8 @@ FC = gfortran
 # Location of files for netcdf library
 # Replace it according to your system configuration. 
 
-NETCDF = -I/data/sdash/Softwares/netcdf/include
-NETCDFLIB = -L/data/sdash/Softwares/netcdf/lib -lnetcdff
+NETCDF = -I/usr/local/include/
+NETCDFLIB = -L/usr/local/lib/ -lnetcdff
 
 # Set compiler flags
 FFLAGS = -O3 -Wall -Wno-unused-variable -fcheck=all -Wtabs -Wextra -ffast-math -funroll-loops --param max-unroll-times=5
