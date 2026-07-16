@@ -121,7 +121,7 @@ divider = make_axes_locatable(ax2)
 cax = divider.append_axes('right', size='5%', pad=0.15)
 fig.colorbar(pm2, cax=cax, orientation='vertical',label=r'F$_{diffusive}$ [G s$^{-1}$]')
 # ax2.set_title(r'$\eta$ = %3d km$^2$ s$^{-1}$, V0 = %2.1f m s$^{-1}$'%(round(eta),np.max(v1[:,1])*L1*1E3))
-ax2.text(0.01,0.9,r'DIffusive flux butterfly diagram',transform=ax2.transAxes,
+ax2.text(0.01,0.9,r'Diffusive flux butterfly diagram',transform=ax2.transAxes,
         fontsize=10,color='brown')
 
 ax3 = plt.subplot(413)
